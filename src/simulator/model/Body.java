@@ -1,7 +1,7 @@
 package simulator.model;
 
-import org.json.JSONObject;
 import simulator.misc.Vector2D;
+import org.json.JSONObject;
 
 public abstract class Body {
 	protected String Id;
@@ -10,8 +10,6 @@ public abstract class Body {
 	protected Vector2D fuerza;
 	protected Vector2D posicion;
 	protected Double masa;
-	
-	//jijijija
 	
 	Body (String id, String gid, Vector2D vel, Vector2D pos, Double mass) throws IllegalArgumentException {
 		if(id==null||gid==null||vel==null||pos==null||mass==null) throw new IllegalArgumentException("Algun argumento es nulo");
