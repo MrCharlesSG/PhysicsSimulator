@@ -10,7 +10,6 @@ public class StationaryBody extends Body{
 
 	@Override
 	void advance(Double dt) {
-		
 	}
 
 }
