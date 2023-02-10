@@ -18,6 +18,7 @@ public class NewtonUniversalGravitation implements ForceLaws{
 		else {
 			this.g = G;
 			this.Fi = new Vector2D();
+			this.acel = new Vector2D();
 		}
 	}
 	
@@ -25,12 +26,12 @@ public class NewtonUniversalGravitation implements ForceLaws{
 	public void apply(List<Body> bs) {
 		
 		for(Body i : bs) {
-			if(i.masa == 0) { //Se ponen la velocidad y la aceleracion del cuerpo a 0
+			if(i.masa == 0) { //Se pone la velocidad a 0, porque la aceleracion del cuerpo ya esta a 0
 				i.velocidad = new Vector2D(0,0);
-				acel = new Vector2D();
 			}
 			else {
-				acel = i.fuerza.scale(1/i.masa); //Se cambia la aceleracion, pero no es atributo de ningun cuerpo, entonces no entiendo por que importa cambiarlo
+				this.acel = i.fuerza.scale(1/i.masa); //Se cambia la aceleracion, pero no es atributo de ningun cuerpo, entonces no entiendo por que importa cambiarlo
+				this.Fi = this.acel.scale(i.masa);
 				for(Body j:bs) {
 					if(i.posicion.distanceTo(j.posicion) > 0) {
 						Double Fij = this.g * ((i.masa*j.masa)/(j.posicion.distanceTo(i.posicion)*j.posicion.distanceTo(i.posicion)));
