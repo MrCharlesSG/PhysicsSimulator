@@ -20,8 +20,8 @@ public abstract class Body {
 			this.gId=gid;
 			this.velocidad=vel;
 			this.fuerza = new Vector2D(0,0);
-			this.posicion=pos;
-			this.masa=mass;
+			this.posicion = pos;
+			this.masa = mass;
 		}
 	}
 	
@@ -65,7 +65,7 @@ public abstract class Body {
 		j.put("m",this.masa);
 		j.put("p",this.posicion.asJSONArray());
 		j.put("v",this.velocidad.asJSONArray());
-		j.put("f", this.fuerza.asJSONArray());
+		j.put("f",this.fuerza.asJSONArray());
 		return j;
 	}
 	

@@ -8,7 +8,6 @@ public class MovingBody extends Body{
 	
 	MovingBody(String id, String gid, Vector2D vel, Vector2D pos, Double mass) throws IllegalArgumentException {
 		super(id, gid, vel, pos, mass);
-		this.a= new Vector2D();
 	}
 
 	@Override
@@ -16,7 +15,7 @@ public class MovingBody extends Body{
 		if(this.masa!=0) {
 			a = a.scale(1/this.masa);
 			this.posicion = this.posicion.plus(velocidad.scale(dt).plus(a.scale(dt*dt/2)));
-			this.velocidad=this.velocidad.plus(a.scale(dt));
+			this.velocidad = this.velocidad.plus(a.scale(dt));
 		}
 	}
 	
