@@ -6,6 +6,4 @@ public interface ForceLaws {
 	
 	public void apply(List<Body> bs);
 	
-	
-	
 }
