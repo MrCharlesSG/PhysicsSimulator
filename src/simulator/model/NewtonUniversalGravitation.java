@@ -6,7 +6,7 @@ import simulator.misc.Vector2D;
 
 public class NewtonUniversalGravitation implements ForceLaws{
 	
-	protected Double g;
+	protected Double g = 6.67 * Math.pow(10, -11);
 	protected Double fi;
 	protected Vector2D acel;
 	protected Vector2D Fi;
