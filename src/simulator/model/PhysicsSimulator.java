@@ -15,6 +15,7 @@ public class PhysicsSimulator {
 	private Double ta;
 	private Map<String,BodiesGroup> map; //Si huebieramos usado un TreeMap apareceria ordenado por la clave
 	private List<String> lista;
+	
 	/*
 	 * Para saber si existe en un mapa:
 	 * map.containsKey("String"); // Devuelve booleano indicando si esta o no
@@ -101,7 +102,6 @@ public class PhysicsSimulator {
 			j.put(lista.get(n));
 		}
 		i.put("groups", j);
-
 		return i;
 	}
 	
