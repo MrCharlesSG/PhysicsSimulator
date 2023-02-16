@@ -1,7 +1,9 @@
 package simulator.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class BodiesGroup {
@@ -16,6 +18,7 @@ public class BodiesGroup {
 		else {
 			this.Id = Id;
 			this.Leyes = fl;
+			this.bodies = new LinkedList<Body>();
 		}
 	}
 	
@@ -64,7 +67,11 @@ public class BodiesGroup {
 		
 		JSONObject i = new JSONObject();
 		i.put("id: ", this.Id);
-		i.put("bodies: ", bodies);
+		JSONArray j = new JSONArray();
+		for(int n=0;n<bodies.size();n++) {
+			j.put(bodies.get(n));
+		}
+		i.put("bodies: ", j);
 		return i;
 		
 	}
