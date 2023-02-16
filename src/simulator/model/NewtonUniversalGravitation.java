@@ -10,6 +10,10 @@ public class NewtonUniversalGravitation implements ForceLaws{
 	protected Double fi;
 	protected Vector2D Fi;
 	
+	NewtonUniversalGravitation(){ //Por defecto g sera 6.67 * 10^-11
+		this.Fi = new Vector2D();
+	}
+	
 	NewtonUniversalGravitation(Double G) throws IllegalArgumentException{
 		if(G < 0) {
 			throw new IllegalArgumentException();

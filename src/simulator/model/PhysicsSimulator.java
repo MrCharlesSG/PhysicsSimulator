@@ -102,6 +102,7 @@ public class PhysicsSimulator {
 			j.put(lista.get(n));
 		}
 		i.put("groups", j);
+
 		return i;
 	}
 	
