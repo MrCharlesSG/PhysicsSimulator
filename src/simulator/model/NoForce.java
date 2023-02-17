@@ -9,7 +9,7 @@ public class NoForce implements ForceLaws {
 	protected Vector2D acel;
 	protected Vector2D Fi;
 	
-	NoForce(){ //¿Se deberia iniciar la aceleracion y fuerza a 0?
+	public NoForce(){ //¿Se deberia iniciar la aceleracion y fuerza a 0?
 		this.acel = new Vector2D();
 		this.Fi = new Vector2D();
 	}
