@@ -25,7 +25,7 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		this();
 		// call addBuilder(b) for each builder b in builder
 		// ...
-		for(Builder<T>b : builders) {
+		for(Builder<T> b : builders) {
 			addBuilder(b);
 		}
 	}
@@ -33,9 +33,10 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	public void addBuilder(Builder<T> b) {
 		// add and entry ‘‘ b.getTag() −> b’’ to _builders.
 		// ...
-		
+		_builders.put(b.getTypeTag(), b);
 		// add b.getInfo () to _buildersInfo
 		// ...
+		_buildersInfo.add(b.getInfo());
 	}
 
 	
@@ -44,6 +45,9 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		if (info == null) {
 			throw new IllegalArgumentException("Invalid value for createInstance: null");
 			}
+		
+		
+		
 		
 		Iterator<String> it = _builders.keySet().iterator();
 		boolean encontrado=false;
