@@ -1,5 +1,6 @@
 package simulator.factories;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
@@ -21,9 +22,26 @@ public class MovingBodyBuilder extends Builder<Body>{
 		String id=data.getString("id");
 		String gid=data.getString("gid");
 		double m=data.getDouble("m");
-		Vector2D vel = new Vector2D(data.getDouble("vel"),data.getDouble("vel")));
 		
-		return new Body(id,gid, , ,m);
+		JSONArray ja = new JSONArray("v");
+		double[] array = new double[2];
+		
+		for(int i=0;i<2;i++) {
+			array[i]=ja.getDouble(i);
+		}
+		
+		Vector2D vel= new Vector2D(array[0],array[1]);
+		
+		ja = new JSONArray("p");
+		
+		for(int i=0;i<2;i++) {
+			array[i]= ja.getDouble(i);
+		}
+		
+		Vector2D pos= new Vector2D(array[0],array[1]);
+		
+		
+		return new MovingBody(id,gid,vel,pos,m);
 	}
 
 }

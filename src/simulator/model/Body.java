@@ -11,7 +11,7 @@ public abstract class Body {
 	protected Vector2D posicion;
 	protected Double masa;
 	
-	Body (String id, String gid, Vector2D vel, Vector2D pos, Double mass) throws IllegalArgumentException {
+	public Body (String id, String gid, Vector2D vel, Vector2D pos, Double mass) throws IllegalArgumentException {
 		if(id==null||gid==null||vel==null||pos==null||mass==null) throw new IllegalArgumentException("Algun argumento es nulo");
 		else if(id.trim().length()>0||gid.trim().length()>0) throw new IllegalArgumentException("Ni idea");
 		else if(mass<0) throw new IllegalArgumentException("La masa no puede ser negativa");

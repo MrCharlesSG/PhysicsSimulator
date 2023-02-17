@@ -12,7 +12,7 @@ public class BodiesGroup {
 	private ForceLaws Leyes;
 	private List<Body> bodies;
 	
-	BodiesGroup(String Id, ForceLaws fl) throws IllegalArgumentException {
+	public BodiesGroup(String Id, ForceLaws fl) throws IllegalArgumentException {
 		if(Id==null || Leyes == null) throw new IllegalArgumentException();
 		else if(!(Id.trim().length()>0)) throw new IllegalArgumentException();
 		else {
@@ -50,7 +50,7 @@ public class BodiesGroup {
 		}
 	}
 	
-	public void advance(Double dt) throws IllegalArgumentException{
+	public void advance(double dt) throws IllegalArgumentException{
 		
 		if(dt<0) throw new IllegalArgumentException();
 		else {
