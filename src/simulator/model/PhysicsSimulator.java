@@ -93,7 +93,7 @@ public class PhysicsSimulator {
 		map.get(id).setForceLaws(fl);
 	}
 	
-	public JSONObject getState() { // No se hacerlo porque no se lo que es un map aun
+	public JSONObject getState() { 
 		JSONObject i = new JSONObject();
 		i.put("time:", this.ta);
 		
