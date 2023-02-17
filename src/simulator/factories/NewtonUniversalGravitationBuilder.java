@@ -3,6 +3,7 @@ package simulator.factories;
 import org.json.JSONObject;
 
 import simulator.model.ForceLaws;
+import simulator.model.NewtonUniversalGravitation;
 
 public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 
@@ -13,9 +14,14 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 
 	@Override
 	protected ForceLaws createInstance(JSONObject data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		double g= data.getDouble("G");
 
+		if(g>=0 ) {
+			return new NewtonUniversalGravitation(g);
+		}else {
+			throw new IllegalArgumentException("Datos incorrectos en lectura de NewtonUniversalGravitation");
+		}
+	}
 
 }
