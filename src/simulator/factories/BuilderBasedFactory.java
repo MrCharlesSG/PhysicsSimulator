@@ -45,8 +45,19 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		if (info == null) {
 			throw new IllegalArgumentException("Invalid value for createInstance: null");
 			}
-		
-		
+		boolean encontrado=false;
+		for(String b : _builders.keySet()) {
+			if(b.equalsIgnoreCase(info.getString("type"))) {
+				encontrado=true;
+				
+			}
+		}
+		if(encontrado) {
+			
+		}
+		else {
+			throw new IllegalArgumentException("Invalid value for createInstance: " + info.toString());
+		}
 		
 		
 		Iterator<String> it = _builders.keySet().iterator();
@@ -54,7 +65,6 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		while(it.hasNext() && !encontrado) {
 			if(it.next().equals(info.getString("type"))) {
 				encontrado=true;
-				
 			}
 		}
 		if(encontrado) {
