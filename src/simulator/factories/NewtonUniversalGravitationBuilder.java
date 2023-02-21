@@ -8,7 +8,7 @@ import simulator.model.NewtonUniversalGravitation;
 public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 
 	public NewtonUniversalGravitationBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
+		super("nlug", "Ley universal de gravitacion de Newton");
 		// TODO Auto-generated constructor stub
 	}
 

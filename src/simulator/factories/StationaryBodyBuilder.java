@@ -9,25 +9,29 @@ import simulator.model.StationaryBody;
 
 public class StationaryBodyBuilder extends Builder<Body>{
 
-	public StationaryBodyBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
+	public StationaryBodyBuilder() {
+		super("st_body", "Cuerpo espacial que no se mueve");
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected Body createInstance(JSONObject data) {
-		String id = data.getString("id");
-		String gid = data.getString("gid");
-		JSONArray p = data.getJSONArray("p");
-		double m= data.getDouble("m");
-		double px= p.getDouble(0);
-		double py= p.getDouble(1);
 		
-		if(id!=null && gid != null && m>=0 && px>=0 && py>=0 ) {
-			return new StationaryBody(id, gid, new Vector2D(px, py),m);
-		}else {
-			throw new IllegalArgumentException();
+		JSONArray p = data.getJSONArray("p");
+		if(p.length()==2) {
+			double m, px, py;
+			String id, gid;
+			id = data.getString("id");
+			gid = data.getString("gid");
+			m= data.getDouble("m");
+			px= p.getDouble(0);
+			py= p.getDouble(1);
+			if(id!=null && gid != null && m>=0 && px>=0 && py>=0 ) {
+				return new StationaryBody(id, gid, new Vector2D(px, py),m);
+			}
 		}
+		throw new IllegalArgumentException();
+		
 	}
 
 }

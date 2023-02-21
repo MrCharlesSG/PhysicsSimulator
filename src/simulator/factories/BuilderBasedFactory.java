@@ -44,31 +44,21 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	public T createInstance(JSONObject info) {
 		if (info == null) {
 			throw new IllegalArgumentException("Invalid value for createInstance: null");
-			}
-		boolean encontrado=false;
-		for(String b : _builders.keySet()) {
-			if(b.equalsIgnoreCase(info.getString("type"))) {
-				encontrado=true;
-				
-			}
 		}
-		if(encontrado) {
-			
-		}
-		else {
-			throw new IllegalArgumentException("Invalid value for createInstance: " + info.toString());
-		}
-		
 		
 		Iterator<String> it = _builders.keySet().iterator();
 		boolean encontrado=false;
+		String ty= info.getString("type");
 		while(it.hasNext() && !encontrado) {
-			if(it.next().equals(info.getString("type"))) {
+			if(it.next().equals(ty)) {
 				encontrado=true;
 			}
 		}
 		if(encontrado) {
-			
+			T e=_builders.get(ty).createInstance(info);
+			if(e!=null) {
+				return e;
+			}
 		}
 			// Search for a builder with a tag equals to info . getString ("type"), call its
 			// createInstance method and return the result if it is not null . The value you
