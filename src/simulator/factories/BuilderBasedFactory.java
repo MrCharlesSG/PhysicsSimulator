@@ -48,6 +48,7 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		
 		Iterator<String> it = _builders.keySet().iterator();
 		boolean encontrado=false;
+		
 		String ty= info.getString("type");
 		while(it.hasNext() && !encontrado) {
 			if(it.next().equals(ty)) {
