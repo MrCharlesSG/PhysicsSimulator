@@ -1,6 +1,7 @@
 package simulator.factories;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
@@ -16,6 +17,7 @@ public class StationaryBodyBuilder extends Builder<Body>{
 
 	@Override
 	protected Body createInstance(JSONObject data) {
+		try {
 		
 		JSONArray p = data.getJSONArray("p");
 		if(p.length()==2) {
@@ -30,8 +32,9 @@ public class StationaryBodyBuilder extends Builder<Body>{
 				return new StationaryBody(id, gid, new Vector2D(px, py),m);
 			}
 		}
-		throw new IllegalArgumentException();
 		
+		}catch(JSONException e){}
+		throw new IllegalArgumentException("Datos incorrectos en lectura de StationaryBody");
 	}
 
 }

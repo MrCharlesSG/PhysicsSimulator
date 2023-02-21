@@ -8,6 +8,9 @@ import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class Controller {
 	//lee los datos de un InputStream dado
 	// ejecuta simulador y muestra los estados en un OutputStream dado
@@ -24,7 +27,10 @@ public class Controller {
 	}
 	
 	public void loadData(InputStream in) {
-		
+		try {
+			
+		}catch(JSONException e){}
+		throw new IllegalArgumentException();
 	}
 	
 	public void run(int n, OutputStream out) {

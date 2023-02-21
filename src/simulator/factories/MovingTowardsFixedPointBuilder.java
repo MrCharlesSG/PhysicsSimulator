@@ -1,6 +1,7 @@
 package simulator.factories;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
@@ -16,6 +17,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 	@Override
 	protected ForceLaws createInstance(JSONObject data) throws IllegalArgumentException{
+		try {
 		
 		JSONArray c = data.getJSONArray("c");
 		
@@ -29,6 +31,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 				return new MovingTowardsFixedPoint(new Vector2D(cx, cy), g );
 			}
 		}
+		}catch(JSONException e){}
 		throw new IllegalArgumentException("Datos incorrectos en lectura de MovingTowardsFixedPoint");
 	}
 

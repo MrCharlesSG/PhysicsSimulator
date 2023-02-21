@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class BuilderBasedFactory<T> implements Factory<T> {
@@ -47,22 +48,24 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		}
 		
 		JSONObject aux = info.has("data") ? info.getJSONObject("data") : new JSONObject();
+		try {
 		
-		Iterator<String> it = _builders.keySet().iterator();
-		boolean encontrado=false;
-		
-		String ty= info.getString("type");
-		while(it.hasNext() && !encontrado) {
-			if(it.next().equals(ty)) {
-				encontrado=true;
+			Iterator<String> it = _builders.keySet().iterator();
+			boolean encontrado=false;
+			
+			String ty= info.getString("type");
+			while(it.hasNext() && !encontrado) {
+				if(it.next().equals(ty)) {
+					encontrado=true;
+				}
 			}
-		}
-		if(encontrado) {
-			T e=_builders.get(ty).createInstance(aux);
-			if(e!=null) {
-				return e;
+			if(encontrado) {
+				T e=_builders.get(ty).createInstance(aux);
+				if(e!=null) {
+					return e;
+				}
 			}
-		}
+		}catch(JSONException e){}
 			// Search for a builder with a tag equals to info . getString ("type"), call its
 			// createInstance method and return the result if it is not null . The value you
 			// pass to createInstance is :
