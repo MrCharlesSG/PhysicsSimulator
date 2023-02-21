@@ -46,6 +46,8 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 			throw new IllegalArgumentException("Invalid value for createInstance: null");
 		}
 		
+		JSONObject aux = info.has("data") ? info.getJSONObject("data") : new JSONObject();
+		
 		Iterator<String> it = _builders.keySet().iterator();
 		boolean encontrado=false;
 		String ty= info.getString("type");
@@ -55,7 +57,7 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 			}
 		}
 		if(encontrado) {
-			T e=_builders.get(ty).createInstance(info);
+			T e=_builders.get(ty).createInstance(aux);
 			if(e!=null) {
 				return e;
 			}
@@ -66,6 +68,7 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 			//
 			// info . has("data") ? info . getJSONObject("data") : new getJSONObject()
 			// If no builder is found or the result is null ...
+		
 			throw new IllegalArgumentException("Invalid value for createInstance: " + info.toString());
 	}
 
