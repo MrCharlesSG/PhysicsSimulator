@@ -7,11 +7,13 @@ public class StationaryBody extends Body{
 	protected Vector2D a;
 	
 	public StationaryBody(String id, String gid, Vector2D pos, Double mass) throws IllegalArgumentException {
-		super(id, gid, null, pos, mass);
+		super(id, gid, new Vector2D(), pos, mass);
 	}
 
 	@Override
 	void advance(Double dt) {
 	}
-
+	
+	
+	
 }

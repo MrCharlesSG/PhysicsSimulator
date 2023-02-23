@@ -6,7 +6,7 @@ import simulator.misc.Vector2D;
 
 public class NewtonUniversalGravitation implements ForceLaws{
 	
-	protected Double g = 6.67 * Math.pow(10, -11);
+	protected double g = 6.67 * Math.pow(10, -11);
 	protected Double fi;
 	protected Vector2D Fi;
 	
@@ -47,8 +47,8 @@ public class NewtonUniversalGravitation implements ForceLaws{
 		}
 	}
 	
-	public String toString() { //Saca por pantalla el vector Fi (Supongo,tampoco lo especifican)
-		return this.Fi.toString();
+	public String toString() { 
+		return "";
 	}
 	
 }

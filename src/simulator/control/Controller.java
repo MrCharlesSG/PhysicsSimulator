@@ -2,6 +2,7 @@ package simulator.control;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import simulator.factories.Factory;
 import simulator.model.Body;
@@ -34,17 +35,17 @@ public class Controller {
 			JSONArray group = jsonInupt.getJSONArray("groups");
 			JSONArray laws = jsonInupt.getJSONArray("laws");
 			JSONArray bodies = jsonInupt.getJSONArray("bodies");
-			//añadimos los grupos
+			//aï¿½adimos los grupos
 			for(int i=0; i<group.length(); i++) {
 				this.physicsSimulator.addGroup(group.getString(i));
 			}
-			//añadimos las fuerzas a los grupos
+			//aï¿½adimos las fuerzas a los grupos
 			ForceLaws fl;
 			for(int i=0; i<laws.length(); i++) {
 				fl= this.factoryFL.createInstance(laws.getJSONObject(i).getJSONObject("laws"));
 				this.physicsSimulator.setForceLaws(laws.getJSONObject(i).getString("id"), fl);
 			}
-			//añadimos los bodys a los grupos
+			//aï¿½adimos los bodys a los grupos
 			Body b;
 			for(int i=0; i<bodies.length(); i++) {
 				b = this.factoryBody.createInstance(laws.getJSONObject(i));
@@ -57,6 +58,18 @@ public class Controller {
 	
 	public void run(int n, OutputStream out) {
 		
+		PrintStream p = new PrintStream(out);
+		p.println("{");
+		p.println("\"states\": [");
+		
+		for(int i=0;i<n;i++) {
+			
+			p.println(physicsSimulator.toString());
+			physicsSimulator.advance();
+		}
+		
+		p.println("]");
+		p.println("}");
 	}
 	
 }
