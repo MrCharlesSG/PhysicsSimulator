@@ -11,7 +11,7 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 	protected double g;
 	
 	public MovingTowardsFixedPoint(Vector2D ci, double g) {
-		if(ci==null || g<0) {
+		if(ci==null || g<=0) {
 			throw new IllegalArgumentException();
 		}
 		this.g=g;
@@ -20,16 +20,17 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 	
 	@Override
 	public void apply(List<Body> bs) {
-		Vector2D di=new Vector2D();
-		for(Body x: bs) {
-			di=ci.minus(x.getPosition()).direction(); 
-		}
 		
+		for(Body x: bs) {
+			
+			Vector2D di = ci.minus(x.getPosition().direction());
+			x.addForce(di.scale(g*x.masa));
+			
+		}
 	}
 	
 	public String toString() {
-		return this.ci.toString();
-		
+		return "";
 	}
 	
 	

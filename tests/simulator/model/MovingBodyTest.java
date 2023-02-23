@@ -29,7 +29,7 @@ class MovingBodyTest {
 		b.addForce(new Vector2D(4.9, 2.7));
 		assertEquals(new Vector2D(6.0, 5.0), b.getForce(),
 				"MovingBody.getForce returned a wrong value after calling addForce");
-
+		
 		// check advance
 		b.advance(1.0);
 		assertEquals(new Vector2D(5.7, 3.45), b.getPosition(),

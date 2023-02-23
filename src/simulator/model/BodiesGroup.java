@@ -13,7 +13,7 @@ public class BodiesGroup {
 	private List<Body> bodies;
 	
 	public BodiesGroup(String Id, ForceLaws fl) throws IllegalArgumentException {
-		if(Id==null || Leyes == null) throw new IllegalArgumentException();
+		if(Id==null || fl == null) throw new IllegalArgumentException();
 		else if(!(Id.trim().length()>0)) throw new IllegalArgumentException();
 		else {
 			this.Id = Id;
@@ -35,11 +35,11 @@ public class BodiesGroup {
 	
 	public void addBody(Body bs) throws IllegalArgumentException{
 		
-		if(bs==null) throw new IllegalArgumentException();
+		if(bs == null) throw new IllegalArgumentException();
 		else {
 			boolean yaExiste = false;
 			for(Body i: this.bodies) {
-				if(i==bs) {
+				if(i.Id==bs.Id) {
 					yaExiste = true;
 					throw new IllegalArgumentException();
 				}
@@ -77,7 +77,7 @@ public class BodiesGroup {
 	}
 	
 	public String toString() {
-		return getState().toString();
+		return this.getState().toString();
 	}
 	
 }
