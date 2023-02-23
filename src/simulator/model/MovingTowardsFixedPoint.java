@@ -28,7 +28,7 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 	}
 	
 	public String toString() {
-		
+		return this.ci.toString();
 		
 	}
 	
