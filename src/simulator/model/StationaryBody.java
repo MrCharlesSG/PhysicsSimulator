@@ -14,6 +14,4 @@ public class StationaryBody extends Body{
 	void advance(Double dt) {
 	}
 	
-	
-	
 }

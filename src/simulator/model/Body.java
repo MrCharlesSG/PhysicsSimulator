@@ -9,12 +9,12 @@ public abstract class Body {
 	protected Vector2D velocidad;
 	protected Vector2D fuerza;
 	protected Vector2D posicion;
-	protected Double masa;
+	protected double masa;
 	
 	public Body (String id, String gid, Vector2D vel, Vector2D pos, Double mass) throws IllegalArgumentException {
 		if(id==null||gid==null||vel==null||pos==null||mass==null) throw new IllegalArgumentException("Algun argumento es nulo");
-		else if(id.trim().length()<0||gid.trim().length()<0) throw new IllegalArgumentException("El Id o gId tienen caracteres en blanco");
-		else if(mass<0) throw new IllegalArgumentException("La masa no puede ser negativa");
+		else if(id.trim().length()==0||gid.trim().length()==0) throw new IllegalArgumentException("El Id o gId tienen caracteres en blanco");
+		else if(mass<=0) throw new IllegalArgumentException("La masa no puede ser negativa");
 		else {
 			this.Id=id;
 			this.gId=gid;
@@ -64,7 +64,7 @@ public abstract class Body {
 		j.put("p",this.posicion.asJSONArray());
 		j.put("v",this.velocidad.asJSONArray());
 		j.put("f",this.fuerza.asJSONArray());
-		j.put("Id",this.Id);
+		j.put("id",this.Id);
 		j.put("m",this.masa);
 		
 		return j;

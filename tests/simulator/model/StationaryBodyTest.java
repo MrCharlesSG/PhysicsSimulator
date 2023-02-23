@@ -59,6 +59,9 @@ class StationaryBodyTest {
 		bs1 = new JSONObject("{\"p\":[2,2],\"v\":[0,0],\"f\":[1.5,2.5],\"id\":\"earth\",\"m\":10}\n");
 		bs2 = new JSONObject(b.getState().toString());
 		assertTrue("StationaryBody.getState retuned a wrong value", bs1.similar(bs2));
+		System.out.println(bs1.toString());
+		System.out.println(b.toString());
+		
 		assertTrue("MovingBody.toString retuned a wrong value", bs1.toString().equals(b.toString()));
 	}
 
