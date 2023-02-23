@@ -11,7 +11,8 @@ import simulator.model.MovingTowardsFixedPoint;
 public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 	public MovingTowardsFixedPointBuilder() {
-		super("mtfp","Fuerza que atrae a un punto concreto" );
+		super("mtfp","Constructor de una fuerza que atrae a un punto concreto" );
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

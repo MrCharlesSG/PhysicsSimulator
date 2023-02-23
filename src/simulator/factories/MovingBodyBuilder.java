@@ -9,11 +9,9 @@ import simulator.model.Body;
 import simulator.model.MovingBody;
 
 public class MovingBodyBuilder extends Builder<Body>{
-	
-	
-	
+
 	public MovingBodyBuilder() {
-		super("mv_body","Fuerza de un cuerpo en movimiento");
+		super("mv_body", "Constructor del moving body");
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import simulator.model.NoForce;
 public class NoForceBuilder extends Builder<ForceLaws>{
 
 	public NoForceBuilder() {
-		super("nf", "No se ejerce ninguna fuerza");
+		super("nf", "Constructor de no fuerza");
 		// TODO Auto-generated constructor stub
 	}
 
