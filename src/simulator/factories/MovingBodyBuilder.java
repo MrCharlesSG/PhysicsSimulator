@@ -9,9 +9,11 @@ import simulator.model.Body;
 import simulator.model.MovingBody;
 
 public class MovingBodyBuilder extends Builder<Body>{
-
-	public MovingBodyBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
+	
+	
+	
+	public MovingBodyBuilder() {
+		super("mv_body","Fuerza de un cuerpo en movimiento");
 	}
 
 	@Override

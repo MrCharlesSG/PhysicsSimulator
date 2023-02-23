@@ -14,7 +14,7 @@ public class NewtonUniversalGravitation implements ForceLaws{
 		this.Fi = new Vector2D();
 	}
 	
-	public NewtonUniversalGravitation(Double G) throws IllegalArgumentException{
+	public NewtonUniversalGravitation(double G) throws IllegalArgumentException{
 		if(G < 0) {
 			throw new IllegalArgumentException();
 		}

@@ -2,6 +2,7 @@ package simulator.control;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import simulator.factories.Factory;
 import simulator.model.Body;
@@ -10,6 +11,7 @@ import simulator.model.PhysicsSimulator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Controller {
 	//lee los datos de un InputStream dado
@@ -34,6 +36,12 @@ public class Controller {
 	}
 	
 	public void run(int n, OutputStream out) {
+		PrintStream p = new PrintStream(out);
+		
+		for(int i=0;i<n;i++) {
+			this.physicsSimulator.
+		}
+		
 		
 	}
 	
