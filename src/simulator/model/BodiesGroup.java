@@ -52,7 +52,7 @@ public class BodiesGroup {
 	
 	public void advance(double dt) throws IllegalArgumentException{
 		
-		if(dt<0) throw new IllegalArgumentException();
+		if(dt<=0) throw new IllegalArgumentException();
 		else {
 			for(Body i: bodies) {
 				i.resetForce();
