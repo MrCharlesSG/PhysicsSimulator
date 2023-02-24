@@ -10,9 +10,9 @@ import org.json.JSONObject;
 
 public class PhysicsSimulator {
 	
-	private Double dt;
+	private double dt;
 	private ForceLaws fl;
-	private Double ta;
+	private double ta;
 	private Map<String,BodiesGroup> map; //Si huebieramos usado un TreeMap apareceria ordenado por la clave
 	private List<String> lista;
 	
@@ -51,7 +51,8 @@ public class PhysicsSimulator {
 	 */
 	
 	PhysicsSimulator(ForceLaws fl, Double dt) throws IllegalArgumentException {
-		if(fl==null||dt==null) throw new IllegalArgumentException();
+		if(fl == null) throw new IllegalArgumentException("Force laws cannot be null");
+		else if(dt == null) throw new IllegalArgumentException("Delta-time must be positive");
 		else {
 			this.dt = dt;
 			this.fl = fl;
@@ -70,26 +71,21 @@ public class PhysicsSimulator {
 	
 	public void addGroup(String id) {
 		
-		for(String s: map.keySet()){
-			if(s.equalsIgnoreCase(id))throw new IllegalArgumentException();
-		}
+		if(map.containsKey(id))throw new IllegalArgumentException("Cannot add a group twice");
 		map.put(id, null);
 		lista.add(id);
 	}
 	
 	public void addBody(Body b) throws IllegalArgumentException{
 		
-		for(String s: map.keySet()){
-			if(s.equalsIgnoreCase(b.gId))throw new IllegalArgumentException();
-		}
+		if(!map.containsKey(b.gId)) throw new IllegalArgumentException("Group must exists");
 		map.put(b.gId, new BodiesGroup(b.Id, this.fl));
+		
 	}
 	
 	public void setForceLaws(String id, ForceLaws fl) throws IllegalArgumentException {
 		
-		for(String s: map.keySet()){
-			if(s.equalsIgnoreCase(id))throw new IllegalArgumentException();
-		}
+		if(map.containsKey(id))throw new IllegalArgumentException("");
 		map.get(id).setForceLaws(fl);
 	}
 	

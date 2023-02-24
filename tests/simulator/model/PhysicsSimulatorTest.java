@@ -207,7 +207,7 @@ class PhysicsSimulatorTest {
 		// cannot add a group twice
 		assertThrowsExactly(IllegalArgumentException.class,
 				() -> fs.addGroup("milkyway"), "Cannot add a group twice");
-
+		
 		// group must exists 
 		assertThrowsExactly(IllegalArgumentException.class,
 				() -> fs.addBody(new MovingBody("B10", "Andromeda", new Vector2D(2.0, 2.0), new Vector2D(3.4, 1.2), 10.0)), "Group must exists");

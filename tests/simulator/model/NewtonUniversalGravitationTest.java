@@ -28,11 +28,6 @@ class NewtonUniversalGravitationTest {
 		ForceLaws fl = new NewtonUniversalGravitation(10);
 		fl.apply(bs);
 		
-		System.out.println(b1.getForce().toString());
-		System.out.println(b2.getForce().toString());
-		System.out.println(b3.getForce().toString());
-		System.out.println(b4.getForce().toString());
-
 		assertEquals(new Vector2D(-861.0410635498471, 1490.998893284755), b1.getForce(),
 				"MovingBody.getForce returned a wrong value");
 		assertEquals(new Vector2D(-1191.8546412035175, -592.710060018094), b2.getForce(),

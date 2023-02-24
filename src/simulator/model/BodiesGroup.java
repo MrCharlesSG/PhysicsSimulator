@@ -52,11 +52,11 @@ public class BodiesGroup {
 	
 	public void advance(double dt) throws IllegalArgumentException{
 		
-		if(dt<=0) throw new IllegalArgumentException();
+		if(dt<=0) throw new IllegalArgumentException("Delta-time must be positive");
 		else {
 			for(Body i: bodies) {
 				i.resetForce();
-				this.Leyes.apply(bodies);
+				Leyes.apply(bodies);
 				i.advance(dt);
 			}
 		}
