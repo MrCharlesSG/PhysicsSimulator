@@ -37,7 +37,9 @@ class PhysicsSimulatorTest {
 		fs.addBody(b6);
 		fs.addBody(b7);
 		fs.addBody(b8);
-
+		
+		System.out.println(fs.getState().toString());
+		
 		fs.advance();
 
 		assertEquals(new Vector2D(-861.0410635498471, 1490.998893284755), b1.getForce(),

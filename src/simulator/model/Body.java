@@ -57,14 +57,14 @@ public abstract class Body {
 		this.fuerza = new Vector2D(0,0);
 	}
 	
-	abstract void advance(Double dt);
+	abstract void advance(double dt);
 	
 	public JSONObject getState() {
 		JSONObject j= new JSONObject();
+		j.put("id",this.Id);
 		j.put("p",this.posicion.asJSONArray());
 		j.put("v",this.velocidad.asJSONArray());
 		j.put("f",this.fuerza.asJSONArray());
-		j.put("id",this.Id);
 		j.put("m",this.masa);
 		
 		return j;

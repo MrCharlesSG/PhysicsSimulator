@@ -8,14 +8,14 @@ public class NewtonUniversalGravitation implements ForceLaws{
 	
 	protected double g;
 	
-	NewtonUniversalGravitation(){ //Por defecto g sera 6.67 * 10^-11
+	public NewtonUniversalGravitation(){ //Por defecto g sera 6.67 * 10^-11
 		this.g = 6.67 * Math.pow(10, -11);
 	}
 	
 	public NewtonUniversalGravitation(double G) throws IllegalArgumentException{
 		if(G <= 0) {
 			throw new IllegalArgumentException();
-		}
+		}	
 		else {
 			this.g = G;
 		}
@@ -33,6 +33,7 @@ public class NewtonUniversalGravitation implements ForceLaws{
 						Vector2D dij = j.posicion.minus(i.posicion).direction();
 						Vector2D Fij = dij.scale(fij);
 						i.addForce(Fij);
+
 					}
 				}
 			}

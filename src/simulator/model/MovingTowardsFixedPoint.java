@@ -10,12 +10,17 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 	
 	protected double g;
 	
+	public MovingTowardsFixedPoint() {
+		this.g = 9.81;
+		this.ci = new Vector2D();
+	}
+	
 	public MovingTowardsFixedPoint(Vector2D ci, double g) {
 		if(ci==null || g<=0) {
 			throw new IllegalArgumentException();
 		}
-		this.g=g;
-		this.ci=ci;
+		this.g = g;
+		this.ci = ci;
 	}
 	
 	@Override

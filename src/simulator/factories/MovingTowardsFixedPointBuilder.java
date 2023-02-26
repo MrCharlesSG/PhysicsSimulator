@@ -16,23 +16,34 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 	}
 
 	@Override
-	protected ForceLaws createInstance(JSONObject data) throws IllegalArgumentException{
-		try {
+	protected ForceLaws createInstance(JSONObject data) {
 		
-		JSONArray c = data.getJSONArray("c");
+		//Valor por defecto de g
+		double g = 9.81;
+		//Valor por defecto de c
+		Vector2D c = new Vector2D();
 		
-		if(c.length()==2) {
-			double g, cx, cy; 
-			g= data.getDouble("g");
-			cx= c.getDouble(0);
-			cy= c.getDouble(1);
-			
-			if(g>=0 && cx>=0 && cy>=0 ) {
-				return new MovingTowardsFixedPoint(new Vector2D(cx, cy), g );
-			}
+		if(data.isNull("c")&&data.isNull("g")) {
+			return new MovingTowardsFixedPoint();
 		}
-		}catch(JSONException e){}
-		throw new IllegalArgumentException("Datos incorrectos en lectura de MovingTowardsFixedPoint");
+		else if(data.isNull("c")&&!data.isNull("g")) {
+			return new MovingTowardsFixedPoint(c, data.getDouble("g"));
+		}
+		else if(!data.isNull("c")&&data.isNull("g")) {
+			JSONArray cj = data.getJSONArray("c");
+			double cx,cy;
+			cx= cj.getDouble(0);
+			cy= cj.getDouble(1);
+			return new MovingTowardsFixedPoint(new Vector2D(cx,cy), g);
+		}
+		else {
+			JSONArray cj = data.getJSONArray("c");
+			double cx,cy;
+			g=data.getDouble("g");
+			cx= cj.getDouble(0);
+			cy= cj.getDouble(1);
+			return new MovingTowardsFixedPoint(new Vector2D(cx, cy), g);
+		}
 	}
 
 }

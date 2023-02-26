@@ -17,25 +17,29 @@ public class MovingBodyBuilder extends Builder<Body>{
 	@Override
 	protected Body createInstance(JSONObject data) throws IllegalArgumentException{
 		try {
-			String gid, id = data.getString("id");
+			String gid, id;
+			id = data.getString("id");
 			gid = data.getString("gid");
-			JSONArray p = data.getJSONArray("p");
+			JSONArray ja = data.getJSONArray("p");
 			double m= data.getDouble("m");
 
-			if(p.length()==2) {
+			if(ja.length()==2) {
 				double px, py;
-				px= p.getDouble(0);
-				py= p.getDouble(1);
-				JSONArray v =data.getJSONArray("v");
-				if(v.length()==2) {
-					double vx= p.getDouble(0);
-					double vy= p.getDouble(1);
+				px= ja.getDouble(0);
+				py= ja.getDouble(1);
+				Vector2D pos = new Vector2D(px,py);
+				ja =data.getJSONArray("v");
+				if(ja.length()==2) {
+					double vx= ja.getDouble(0);
+					double vy= ja.getDouble(1);
+					Vector2D vel = new Vector2D(vx,vy);
 					if(id!=null && gid != null && m>=0 && px>=0 && py>=0 && vx>=0 && vy>=0) {
-						return new MovingBody(id, gid, new Vector2D(vx, vy), new Vector2D(px, py),m);
+						return new MovingBody(id, gid, pos, vel,m);
 					}
 				}
 			}
-		}catch(JSONException e){}
-		throw new IllegalArgumentException("Error en leer valores de Moving Body"); 
+		}catch(JSONException e) {}
+			throw new IllegalArgumentException("Error en leer valores de Moving Body"); 
+		
 	}
 }

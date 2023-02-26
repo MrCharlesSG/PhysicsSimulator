@@ -1,6 +1,5 @@
 package simulator.factories;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.model.ForceLaws;
@@ -15,13 +14,14 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 
 	@Override
 	protected ForceLaws createInstance(JSONObject data) {
-		try {
-			double g= data.getDouble("G");
-			if(g>=0 ) {
-				return new NewtonUniversalGravitation(g);
-			}
-		}catch(JSONException e){}
-		throw new IllegalArgumentException("Datos incorrectos en lectura de NewtonUniversalGravitation");
+		
+		if(data.isNull("G")) {
+			return new NewtonUniversalGravitation();
+		}
+		else {
+			double g = data.getDouble("G");
+			return new NewtonUniversalGravitation(g);
+		}
 	}
 
 }

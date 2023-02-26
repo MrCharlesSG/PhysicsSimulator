@@ -53,14 +53,12 @@ public class BodiesGroup {
 	public void advance(double dt) throws IllegalArgumentException{
 		
 		if(dt<=0) throw new IllegalArgumentException("Delta-time must be positive");
-		else {
-			for(Body i: bodies) {
-				i.resetForce();
-				Leyes.apply(bodies);
-				i.advance(dt);
-			}
-		}
 		
+		for(Body i: bodies) {	
+			i.resetForce();
+			this.Leyes.apply(bodies);
+			i.advance(dt);
+		}
 	}
 	
 	public JSONObject getState() { // No se si esta bien porque dice que devuelve el i-esimo y le estoy pasando toda la lista

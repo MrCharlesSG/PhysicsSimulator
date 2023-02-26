@@ -28,9 +28,12 @@ class MovingBodyBuilderTest {
 		
 		Body b = bb.createInstance(jo);
 
+		System.out.println(b.getState().toString());
 		
 		assertTrue(b instanceof MovingBody);
-
+		
+	
+		
 		assertEquals(new Vector2D(0.0, 0.0), b.getForce(), "getForce returned a wrong value");
 		assertEquals(new Vector2D(0.0, 4.5E10), b.getPosition(), "getPosition returned a wrong value");
 		assertEquals(new Vector2D(10000.0, 0.0), b.getVelocity(), "getVelocity returned a wrong value");

@@ -14,7 +14,7 @@ public class NoForceBuilder extends Builder<ForceLaws>{
 
 	@Override
 	protected ForceLaws createInstance(JSONObject data) {
-		if(data.getString("").equals("")) {
+		if(data.isEmpty()) {
 			return new NoForce();
 		}else {
 			throw new IllegalArgumentException("Argumentos de mas en NoForce");

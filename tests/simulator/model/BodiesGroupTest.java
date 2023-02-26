@@ -26,9 +26,8 @@ class BodiesGroupTest {
 		g.addBody(b2);
 		g.addBody(b3);
 		g.addBody(b4);
-		System.out.println(b1.fuerza.toString());
+		
 		g.advance(1.0);
-		System.out.println(b1.fuerza.toString());
 		
 		assertEquals(new Vector2D(-861.0410635498471, 1490.998893284755), b1.getForce(),
 				"MovingBody.getForce returned a wrong value");
