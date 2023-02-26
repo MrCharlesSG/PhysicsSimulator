@@ -23,23 +23,27 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		//Valor por defecto de c
 		Vector2D c = new Vector2D();
 		
-		if(data.isNull("c")&&data.isNull("g")) {
+		//No se ha introducido ningun valor
+		if(data.isNull("c") && data.isNull("g")) {
 			return new MovingTowardsFixedPoint();
 		}
-		else if(data.isNull("c")&&!data.isNull("g")) {
+		//Solo se ha introducido el valor de g
+		else if(data.isNull("c") && !data.isNull("g")) {
 			return new MovingTowardsFixedPoint(c, data.getDouble("g"));
 		}
-		else if(!data.isNull("c")&&data.isNull("g")) {
+		//Solo se ha introducido el valor de c
+		else if(!data.isNull("c") && data.isNull("g")) {
 			JSONArray cj = data.getJSONArray("c");
 			double cx,cy;
 			cx= cj.getDouble(0);
 			cy= cj.getDouble(1);
 			return new MovingTowardsFixedPoint(new Vector2D(cx,cy), g);
 		}
+		//Se han introducido ambos datos
 		else {
 			JSONArray cj = data.getJSONArray("c");
 			double cx,cy;
-			g=data.getDouble("g");
+			g = data.getDouble("g");
 			cx= cj.getDouble(0);
 			cy= cj.getDouble(1);
 			return new MovingTowardsFixedPoint(new Vector2D(cx, cy), g);
