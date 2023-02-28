@@ -59,6 +59,7 @@ public class BodiesGroup {
 			this.Leyes.apply(bodies);
 			i.advance(dt);
 		}
+		
 	}
 	
 	public JSONObject getState() { // No se si esta bien porque dice que devuelve el i-esimo y le estoy pasando toda la lista
