@@ -20,7 +20,7 @@ public class NoForce implements ForceLaws {
 	}
 	
 	public String toString() {
-		return this.Fi.toString();
+		return "";
 	}
 	
 }

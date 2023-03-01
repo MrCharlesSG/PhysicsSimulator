@@ -27,8 +27,6 @@ class MovingBodyBuilderTest {
 		assertTrue("Descreption cannot be empty",bb.getInfo().getString("desc").trim().length() > 0);
 		
 		Body b = bb.createInstance(jo);
-
-		System.out.println(b.getState().toString());
 		
 		assertTrue(b instanceof MovingBody);
 		
