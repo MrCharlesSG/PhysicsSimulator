@@ -37,8 +37,7 @@ public class Main {
 	private static Factory<ForceLaws> _forceLawsFactory;
 
 	private static void initFactories() {
-		ArrayList body= new ArrayList();
-		ArrayList force= new ArrayList();
+		
 		
 		
 		
