@@ -26,7 +26,7 @@ public class BodiesGroup {
 		return this.Id;
 	}
 	
-	public void setForceLaws(ForceLaws fl) throws IllegalArgumentException { //Cambia las leyes a fl
+	public void setForceLaws(ForceLaws fl) throws IllegalArgumentException { 
 		if(fl==null) throw new IllegalArgumentException();
 		else {
 			this.Leyes = fl;
@@ -35,13 +35,13 @@ public class BodiesGroup {
 	
 	public void addBody(Body bs) throws IllegalArgumentException{
 		
-		if(bs == null) throw new IllegalArgumentException();
+		if(bs == null) throw new IllegalArgumentException("Valor del cuerpo nulo");
 		else {
 			boolean yaExiste = false;
 			for(Body i: this.bodies) {
-				if(i.Id==bs.Id) {
+				if(i.getId()==bs.getId()) {
 					yaExiste = true;
-					throw new IllegalArgumentException();
+					throw new IllegalArgumentException("El cuerpo ya existe");
 				}
 			}
 			if(!yaExiste) {

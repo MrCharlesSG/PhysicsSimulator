@@ -63,10 +63,11 @@ public class PhysicsSimulator {
 	}
 	
 	public void advance() { 
-		this.ta = this.ta + dt;
-		for(BodiesGroup s: map.values()){
-			s.advance(ta);
+		
+		for(String s: map.keySet()){
+			map.get(s).advance(dt);
 		}
+		this.ta = this.ta + dt;
 	}
 	
 	public void addGroup(String id) {
@@ -79,7 +80,7 @@ public class PhysicsSimulator {
 	public void addBody(Body b) throws IllegalArgumentException{
 		
 		if(!map.containsKey(b.gId)) throw new IllegalArgumentException("Group must exists");
-		map.put(b.gId, new BodiesGroup(b.Id, this.fl));
+		map.get(b.getgId()).addBody(b);
 		
 	}
 	
