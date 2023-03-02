@@ -9,7 +9,6 @@ public class NoForceBuilder extends Builder<ForceLaws>{
 
 	public NoForceBuilder() {
 		super("nf", "Constructor de no fuerza");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -71,7 +71,7 @@ public class BodiesGroup {
 			j.put(bodies.get(n).getState());
 		}
 		i.put("bodies", j);
-		i.put("id", this.Id);
+		i.put("id", this.getId());
 		return i;
 		
 	}

@@ -12,13 +12,12 @@ public class StationaryBodyBuilder extends Builder<Body>{
 
 	public StationaryBodyBuilder() {
 		super("st_body", "Cuerpo espacial que no se mueve");
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override
 	protected Body createInstance(JSONObject data) {
 		try {
-		
 		JSONArray p = data.getJSONArray("p");
 		if(p.length()==2) {
 			double m, px, py;

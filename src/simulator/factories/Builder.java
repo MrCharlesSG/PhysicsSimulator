@@ -17,11 +17,15 @@ public abstract class Builder<T> {
 	public String getTypeTag() {
 		return _typeTag;
 	}
+	
+	public String getDesc() {
+		return _desc;
+	}
 
 	public JSONObject getInfo() {
 		JSONObject info = new JSONObject();
-		info.put("type", _typeTag);
-		info.put("desc", _desc);
+		info.put("type", getTypeTag());
+		info.put("desc", getDesc());
 		return info;
 	}
 

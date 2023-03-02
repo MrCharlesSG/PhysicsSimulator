@@ -251,7 +251,11 @@ public class Main {
 			os=new FileOutputStream(new File(_outFile));
 		}
 		Controller c = new Controller(ps, _bodyFactory, _forceLawsFactory);
-		c.loadData(is);
+		try {
+			c.loadData(is);
+		}catch(Exception e) {
+			throw new Exception("Error loading data");
+		}
 		c.run(_steps, os);
 	}
 

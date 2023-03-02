@@ -61,11 +61,11 @@ public abstract class Body {
 	
 	public JSONObject getState() {
 		JSONObject j= new JSONObject();
-		j.put("id",this.Id);
-		j.put("p",this.posicion.asJSONArray());
-		j.put("v",this.velocidad.asJSONArray());
-		j.put("f",this.fuerza.asJSONArray());
-		j.put("m",this.masa);
+		j.put("id",this.getId());
+		j.put("p",this.getPosition().asJSONArray());
+		j.put("v",this.getVelocity().asJSONArray());
+		j.put("f",this.getForce().asJSONArray());
+		j.put("m",this.getMass());
 		
 		return j;
 	}

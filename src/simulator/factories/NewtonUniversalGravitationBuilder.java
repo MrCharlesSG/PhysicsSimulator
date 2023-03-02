@@ -9,7 +9,6 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 
 	public NewtonUniversalGravitationBuilder() {
 		super("nlug", "Constructor de la Ley Universal de Gravitacion de Newton");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -10,14 +10,14 @@ public class MovingBody extends Body{
 
 	@Override
 	void advance(double dt) {
-		if(this.masa>0) {
+		if(this.getMass()>0) {
 			Vector2D a = new Vector2D();
-			a = this.fuerza.scale(1/this.masa);
-			this.posicion = this.posicion.plus(this.velocidad.scale(dt).plus(a.scale(dt*dt/2)));
-			this.velocidad = this.velocidad.plus(a.scale(dt));
+			a = this.getForce().scale(1/this.getMass());
+			this.posicion = this.getPosition().plus(this.getVelocity().scale(dt).plus(a.scale(dt*dt/2)));
+			this.velocidad = this.getVelocity().plus(a.scale(dt));
 		}
 		else {
-			this.posicion = this.posicion.plus(this.velocidad.scale(dt));
+			this.posicion = this.getPosition().plus(this.getVelocity().scale(dt));
 		}
 	}
 }

@@ -30,30 +30,32 @@ public class Controller {
 	}
 	
 	public void loadData(InputStream in) {
-		try {
-			JSONObject jsonInupt = new JSONObject(new JSONTokener(in));
-			JSONArray group = jsonInupt.getJSONArray("groups");
-			JSONArray laws = jsonInupt.getJSONArray("laws");
-			JSONArray bodies = jsonInupt.getJSONArray("bodies");
-			//a�adimos los grupos
-			for(int i=0; i<group.length(); i++) {
-				this.physicsSimulator.addGroup(group.getString(i));
-			}
+		
+		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
+		
+		JSONArray group = jsonInput.getJSONArray("groups");
+		//a�adimos los grupos
+		for(int i=0; i<group.length(); i++) {
+			this.physicsSimulator.addGroup(group.getString(i));
+		}
+
+		if(jsonInput.has("laws")) {
+			JSONArray laws = jsonInput.getJSONArray("laws");
 			//a�adimos las fuerzas a los grupos
 			ForceLaws fl;
 			for(int i=0; i<laws.length(); i++) {
 				fl= this.factoryFL.createInstance(laws.getJSONObject(i).getJSONObject("laws"));
 				this.physicsSimulator.setForceLaws(laws.getJSONObject(i).getString("id"), fl);
 			}
-			//a�adimos los bodys a los grupos
-			Body b;
-			for(int i=0; i<bodies.length(); i++) {
-				b = this.factoryBody.createInstance(laws.getJSONObject(i));
-				this.physicsSimulator.addBody(b);
-			}
-			
-		}catch(JSONException e){}
-		throw new IllegalArgumentException("Error loading data");
+		}
+		JSONArray bodies = jsonInput.getJSONArray("bodies");
+		//a�adimos los bodys a los grupos
+		Body b;
+		for(int i=0; i<bodies.length(); i++) {
+			b = this.factoryBody.createInstance(bodies.getJSONObject(i));
+			this.physicsSimulator.addBody(b);
+		}
+		
 	}
 	
 	public void run(int n, OutputStream out) {
