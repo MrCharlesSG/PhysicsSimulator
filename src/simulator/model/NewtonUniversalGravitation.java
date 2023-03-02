@@ -9,7 +9,7 @@ public class NewtonUniversalGravitation implements ForceLaws{
 	protected double g;
 	
 	public NewtonUniversalGravitation(){ //Por defecto g sera 6.67 * 10^-11
-		this.g = 6.67 * Math.pow(10, -11);
+		this.g = 6.67 * (Math.pow(10, -11));
 	}
 	
 	public NewtonUniversalGravitation(double G) throws IllegalArgumentException{

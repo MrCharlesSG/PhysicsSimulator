@@ -254,7 +254,7 @@ public class Main {
 		try {
 			c.loadData(is);
 		}catch(Exception e) {
-			throw new Exception("Error loading data");
+			throw new Exception(e);
 		}
 		c.run(_steps, os);
 	}

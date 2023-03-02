@@ -27,8 +27,9 @@ public class StationaryBodyBuilder extends Builder<Body>{
 			m= data.getDouble("m");
 			px= p.getDouble(0);
 			py= p.getDouble(1);
-			if(id!=null && gid != null && m>=0 && px>=0 && py>=0 ) {
-				return new StationaryBody(id, gid, new Vector2D(px, py),m);
+			Vector2D pos = new Vector2D(px,py);
+			if(id!=null && gid != null && m>=0) {
+				return new StationaryBody(id, gid, pos,m);
 			}
 		}
 		

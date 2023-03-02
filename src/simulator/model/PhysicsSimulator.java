@@ -16,40 +16,6 @@ public class PhysicsSimulator {
 	private Map<String,BodiesGroup> map; //Si huebieramos usado un TreeMap apareceria ordenado por la clave
 	private List<BodiesGroup> lista;
 	
-	/*
-	 * Para saber si existe en un mapa:
-	 * map.containsKey("String"); // Devuelve booleano indicando si esta o no
-	 * map.get("String")
-	 * 
-	 * Como recorrer los mapas:
-	 * 
-	 * Por clave: for(String s: map.keySet(){
-	 * 		System.out.println(s); //Muestra el elemento
-	 * 		System.out.println(map.get(s); //Accede al valor
-	 * }
-	 * 
-	 * Por valor: for(Integer a: map.keySet(){}
-	 * 
-	 * 
-	 * Como recorrer usando map.size()
-	 * 
-	 * List<Integer> misValores = new LinkedList<Integer>(map.values());
-	 * for(int i=0;i<map.size();i++){
-	 * 		misValores.get(i);
-	 * }
-	 * 
-	 * Clase anidada que nos ayudara a comparar
-	 * public static class Micomparador implements Comparator<Person>{
-	 * 
-	 * 		@Override
-	 * 		public int compare(Person o1, Person o2){
-	 * 				return o1.Id-o2.Id;
-	 * 		}
-	 * 
-	 * }
-	 * 
-	 */
-	
 	public PhysicsSimulator(ForceLaws fl, Double dt) throws IllegalArgumentException {
 		if(fl == null) throw new IllegalArgumentException("Force laws cannot be null");
 		else if(dt == null) throw new IllegalArgumentException("Delta-time must be positive");
@@ -64,10 +30,11 @@ public class PhysicsSimulator {
 	
 	public void advance() { 
 		
+		this.ta = this.ta + dt;
 		for(String s: map.keySet()){
 			map.get(s).advance(dt);
 		}
-		this.ta = this.ta + dt;
+		
 	}
 	
 	public void addGroup(String id) {

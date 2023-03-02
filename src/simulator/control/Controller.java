@@ -50,10 +50,8 @@ public class Controller {
 		}
 		JSONArray bodies = jsonInput.getJSONArray("bodies");
 		//a�adimos los bodys a los grupos
-		Body b;
 		for(int i=0; i<bodies.length(); i++) {
-			b = this.factoryBody.createInstance(bodies.getJSONObject(i));
-			this.physicsSimulator.addBody(b);
+			this.physicsSimulator.addBody(this.factoryBody.createInstance(bodies.getJSONObject(i)));
 		}
 		
 	}
@@ -68,14 +66,18 @@ public class Controller {
 			p.println(physicsSimulator.toString());
 		}
 		else {
-			for(int i=0;i<n;i++) {
+			for(int i=0;i<=n;i++) {
 				p.println(physicsSimulator.toString());
+				if(i<n) {
+					p.print(",");
+				}
 				physicsSimulator.advance();
 			}
 		}
 		
 		p.println("]");
 		p.println("}");
+		
 	}
 	
 }
