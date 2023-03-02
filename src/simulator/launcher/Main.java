@@ -105,13 +105,22 @@ public class Main {
 
 		// input file
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Bodies JSON input file.").build());
-
+		
+		// output file
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Bodies JSON output file.").build());
+		
+		// delta-time
+		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg()
+				.desc("A double representing the steps taken per simulation. Default value: "
+						+ _stepsDefaultValue + ".")
+				.build());
+				
 		// delta-time
 		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time").hasArg()
 				.desc("A double representing actual time, in seconds, per simulation step. Default value: "
 						+ _dtimeDefaultValue + ".")
 				.build());
-
+		
 		// force laws
 		cmdLineOptions.addOption(Option.builder("fl").longOpt("force-laws").hasArg()
 				.desc("Force laws to be used in the simulator. Possible values: "
