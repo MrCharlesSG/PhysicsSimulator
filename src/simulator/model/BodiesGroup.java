@@ -68,9 +68,10 @@ public class BodiesGroup {
 		JSONObject i = new JSONObject();
 		JSONArray j = new JSONArray();
 		for(int n=0;n<bodies.size();n++) {
-			j.put(bodies.get(n));
+			j.put(bodies.get(n).getState());
 		}
 		i.put("bodies", j);
+		i.put("id", this.Id);
 		return i;
 		
 	}

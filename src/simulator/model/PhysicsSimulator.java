@@ -63,10 +63,10 @@ public class PhysicsSimulator {
 	}
 	
 	public void advance() { 
-		for(BodiesGroup s: map.values()){
-			s.advance(dt);
-		}
 		this.ta = this.ta + dt;
+		for(BodiesGroup s: map.values()){
+			s.advance(ta);
+		}
 	}
 	
 	public void addGroup(String id) {
