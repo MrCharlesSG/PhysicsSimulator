@@ -62,7 +62,7 @@ public class Controller {
 		p.println("{");
 		p.println("\"states\": [");
 		
-		if(n<1) {
+		if(n < 1) {
 			p.println(physicsSimulator.toString());
 		}
 		else {

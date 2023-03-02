@@ -14,7 +14,7 @@ public class PhysicsSimulator {
 	private ForceLaws fl;
 	private double ta;
 	private Map<String,BodiesGroup> map; //Si huebieramos usado un TreeMap apareceria ordenado por la clave
-	private List<String> lista;
+	private List<BodiesGroup> lista;
 	
 	/*
 	 * Para saber si existe en un mapa:
@@ -50,7 +50,7 @@ public class PhysicsSimulator {
 	 * 
 	 */
 	
-	PhysicsSimulator(ForceLaws fl, Double dt) throws IllegalArgumentException {
+	public PhysicsSimulator(ForceLaws fl, Double dt) throws IllegalArgumentException {
 		if(fl == null) throw new IllegalArgumentException("Force laws cannot be null");
 		else if(dt == null) throw new IllegalArgumentException("Delta-time must be positive");
 		else {
@@ -58,7 +58,7 @@ public class PhysicsSimulator {
 			this.fl = fl;
 			this.ta = 0.0;
 			this.map = new HashMap<String,BodiesGroup>();
-			this.lista = new LinkedList<String>();
+			this.lista = new LinkedList<BodiesGroup>();
 		}
 	}
 	
@@ -73,33 +73,32 @@ public class PhysicsSimulator {
 	public void addGroup(String id) {
 		
 		if(map.containsKey(id))throw new IllegalArgumentException("Cannot add a group twice");
-		map.put(id, null);
-		lista.add(id);
+		BodiesGroup bd=new BodiesGroup(id,fl);
+		map.put(id, bd);
+		lista.add(bd);
 	}
 	
 	public void addBody(Body b) throws IllegalArgumentException{
 		
-		if(!map.containsKey(b.gId)) throw new IllegalArgumentException("Group must exists");
+		if(!map.containsKey(b.getgId())) throw new IllegalArgumentException("Group must exists");
 		map.get(b.getgId()).addBody(b);
 		
 	}
 	
 	public void setForceLaws(String id, ForceLaws fl) throws IllegalArgumentException {
 		
-		if(map.containsKey(id))throw new IllegalArgumentException("");
+		if(!map.containsKey(id))throw new IllegalArgumentException("Algun cuerpo ya tiene una fuerza asociada");
 		map.get(id).setForceLaws(fl);
 	}
 	
 	public JSONObject getState() { 
 		JSONObject i = new JSONObject();
-		i.put("time:", this.ta);
-		
 		JSONArray j = new JSONArray();
-		for(int n=0;n<map.size();n++) {
-			j.put(lista.get(n));
+		for(int n=0;n<map.values().size();n++) {
+			j.put(lista.get(n).getState());
 		}
-		i.put("groups", j);
-
+		i.put("groups", j);	
+		i.put("time", this.ta);
 		return i;
 	}
 	

@@ -1,5 +1,10 @@
 package simulator.launcher;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.cli.CommandLine;
@@ -11,10 +16,18 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
+import simulator.control.Controller;
+import simulator.factories.Builder;
+import simulator.factories.BuilderBasedFactory;
 import simulator.factories.Factory;
+import simulator.factories.MovingBodyBuilder;
+import simulator.factories.MovingTowardsFixedPointBuilder;
+import simulator.factories.NewtonUniversalGravitationBuilder;
+import simulator.factories.NoForceBuilder;
+import simulator.factories.StationaryBodyBuilder;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
-
+import simulator.model.PhysicsSimulator;
 
 public class Main {
 
@@ -37,11 +50,15 @@ public class Main {
 	private static Factory<ForceLaws> _forceLawsFactory;
 
 	private static void initFactories() {
-		
-		
-		
-		
-		
+		ArrayList<Builder<Body>> a = new ArrayList<Builder<Body>>();
+		a.add(new MovingBodyBuilder());
+		a.add(new StationaryBodyBuilder());
+		_bodyFactory= new BuilderBasedFactory<Body>(a);
+		ArrayList<Builder<ForceLaws>> b = new ArrayList<Builder<ForceLaws>>();
+		b.add(new NewtonUniversalGravitationBuilder());
+		b.add(new NoForceBuilder());
+		b.add(new MovingTowardsFixedPointBuilder());
+		_forceLawsFactory= new BuilderBasedFactory<ForceLaws>(b);
 	}
 
 	private static void parseArgs(String[] args) {
@@ -214,9 +231,19 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws Exception {
-		if(_outFile!=null) {
-			
+	
+		PhysicsSimulator ps = new PhysicsSimulator(_forceLawsFactory.createInstance(_forceLawsInfo),_dtime);
+		InputStream is=new FileInputStream(new File(_inFile));
+		OutputStream os;
+		if(_outFile==null) {
+			os=System.out;
 		}
+		else {
+			os=new FileOutputStream(new File(_outFile));
+		}
+		Controller c = new Controller(ps, _bodyFactory, _forceLawsFactory);
+		c.loadData(is);
+		c.run(_steps, os);
 	}
 
 	private static void start(String[] args) throws Exception {
