@@ -2,6 +2,7 @@ package simulator.factories;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -47,10 +48,11 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		}
 		
 		JSONObject aux = info.has("data") ? info.getJSONObject("data") : new JSONObject();
-		try {			
+		try {
+		
 			String ty= info.getString("type");
 			if(this._builders.containsKey(ty)) {
-				this._builders.get(ty).createInstance(aux);
+				return this._builders.get(ty).createInstance(aux);
 			}
 		}catch(JSONException e){}
 			// Search for a builder with a tag equals to info . getString ("type"), call its
