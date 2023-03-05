@@ -23,7 +23,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		
 		//No se ha introducido ningun valor
 		if(data.isNull("c") && data.isNull("g")) {
-			return new MovingTowardsFixedPoint();
+			return new MovingTowardsFixedPoint(c, g);
 		}
 		//Solo se ha introducido el valor de g
 		else if(data.isNull("c") && !data.isNull("g")) {
