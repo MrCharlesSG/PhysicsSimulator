@@ -38,6 +38,7 @@ public class BodiesGroup {
 		if(bs == null) throw new IllegalArgumentException("Valor del cuerpo nulo");
 		else {
 			boolean yaExiste = false;
+			//cambiar el for por un contains y sobreescribimos el equals de body para que solo compare los ID de los cuerpos
 			for(Body i: this.bodies) {
 				if(i.getId()==bs.getId()) {
 					yaExiste = true;
