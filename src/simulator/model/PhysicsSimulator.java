@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +16,8 @@ public class PhysicsSimulator {
 	private double ta;
 	private Map<String,BodiesGroup> map; //Si huebieramos usado un TreeMap apareceria ordenado por la clave
 	private List<BodiesGroup> lista;
+	private List<SimulatorObserver> listaobs;
+	private Map<String, BodiesGroup> groupsRO;
 	
 	public PhysicsSimulator(ForceLaws fl, Double dt) throws IllegalArgumentException {
 		if(fl == null) throw new IllegalArgumentException("Force laws cannot be null");
@@ -25,6 +28,8 @@ public class PhysicsSimulator {
 			this.ta = 0.0;
 			this.map = new HashMap<String,BodiesGroup>();
 			this.lista = new LinkedList<BodiesGroup>();
+			this.listaobs = new LinkedList<SimulatorObserver>();
+			this.groupsRO = Collections.unmodifiableMap(map);
 		}
 	}
 	
@@ -33,6 +38,9 @@ public class PhysicsSimulator {
 		this.ta = this.ta + dt;
 		for(String s: map.keySet()){
 			map.get(s).advance(dt);
+		}
+		for(SimulatorObserver so:listaobs) {
+			so.onAdvance(groupsRO, ta);
 		}
 		
 	}
@@ -43,19 +51,28 @@ public class PhysicsSimulator {
 		BodiesGroup bd=new BodiesGroup(id,fl);
 		map.put(id, bd);
 		lista.add(bd);
+		for(SimulatorObserver so:listaobs) {
+			so.onGroupAdded(groupsRO, bd);
+		}
 	}
 	
 	public void addBody(Body b) throws IllegalArgumentException{
 		
 		if(!map.containsKey(b.getgId())) throw new IllegalArgumentException("Group must exists");
 		map.get(b.getgId()).addBody(b);
-		
+		for(SimulatorObserver so:listaobs) {
+			so.onBodyAdded(groupsRO, b);
+		}
 	}
 	
 	public void setForceLaws(String id, ForceLaws fl) throws IllegalArgumentException {
 		
 		if(!map.containsKey(id))throw new IllegalArgumentException("Algun cuerpo ya tiene una fuerza asociada");
 		map.get(id).setForceLaws(fl);
+		for(SimulatorObserver so: listaobs) {
+			so.onForceLawsChanged(map.get(id));
+		}
+		
 	}
 	
 	public JSONObject getState() { 
@@ -69,8 +86,37 @@ public class PhysicsSimulator {
 		return i;
 	}
 	
+	public void reset() {
+		this.ta=0.0;
+		map.clear();
+		for(SimulatorObserver so:listaobs) {
+			so.onReset(groupsRO, ta, dt);
+		}
+	}
+	
 	public String toString() {
 		return getState().toString();
+	}
+	
+	public void setDeltaTime(double dt) throws IllegalArgumentException {
+		if(dt<0) throw new IllegalArgumentException("Delta-time debe ser positivo");
+		this.dt=dt;
+		for(SimulatorObserver so:listaobs) {
+			so.onDeltaTimeChanged(dt);
+		}
+	}
+	
+	public void addObserver(SimulatorObserver o) {
+		if(!listaobs.contains(o)) {
+			listaobs.add(o);
+			o.onRegister(groupsRO, ta, dt);
+		}
+	}
+	
+	public void removeObserver(SimulatorObserver o) {
+		if(listaobs.contains(o)) {
+			listaobs.remove(o);
+		}
 	}
 	
 }

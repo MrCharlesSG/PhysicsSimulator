@@ -40,6 +40,16 @@ public class MovingBodyBuilder extends Builder<Body>{
 			}
 		}catch(JSONException e) {}
 			throw new IllegalArgumentException("Error en leer valores de Moving Body"); 
+	}
+	
+	
+	public JSONObject getInfo() {
+		JSONObject jo=new JSONObject();
 		
+		jo.put("type",getTypeTag());
+		jo.put("desc",getDesc());
+		jo.put("data", toString());
+		
+		return jo;
 	}
 }

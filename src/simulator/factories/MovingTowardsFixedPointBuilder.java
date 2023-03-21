@@ -47,5 +47,14 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 			return new MovingTowardsFixedPoint(new Vector2D(cx, cy), g);
 		}
 	}
-
+	
+	public JSONObject getInfo() {
+		JSONObject jo=new JSONObject();
+		
+		jo.put("type",getTypeTag());
+		jo.put("desc",getDesc());
+		jo.put("data", toString());
+		
+		return jo;
+	}
 }

@@ -20,5 +20,14 @@ public class NoForceBuilder extends Builder<ForceLaws>{
 		}
 		
 	}
-
+	
+	public JSONObject getInfo() {
+		JSONObject jo=new JSONObject();
+		
+		jo.put("type",getTypeTag());
+		jo.put("desc",getDesc());
+		jo.put("data", toString());
+		
+		return jo;
+	}
 }

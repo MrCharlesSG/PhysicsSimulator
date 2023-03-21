@@ -1,5 +1,7 @@
 package simulator.model;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +13,8 @@ public class BodiesGroup {
 	private String Id;
 	private ForceLaws Leyes;
 	private List<Body> bodies;
-	
+	private List<Body> bodiesRO;
+
 	public BodiesGroup(String Id, ForceLaws fl) throws IllegalArgumentException {
 		if(Id==null || fl == null) throw new IllegalArgumentException();
 		else if(!(Id.trim().length()>0)) throw new IllegalArgumentException();
@@ -19,6 +22,7 @@ public class BodiesGroup {
 			this.Id = Id;
 			this.Leyes = fl;
 			this.bodies = new LinkedList<Body>();
+			this.bodiesRO = Collections.unmodifiableList(bodies);
 		}
 	}
 	
@@ -54,12 +58,12 @@ public class BodiesGroup {
 	public void advance(double dt) throws IllegalArgumentException{
 		
 		if(dt<=0) throw new IllegalArgumentException("Delta-time must be positive");
-		for(int i=0;i<bodies.size();i++) {
-			bodies.get(i).resetForce();
+		for(Body b:bodies) {
+			b.resetForce();
 		}
 		this.Leyes.apply(bodies);
-		for(int i=0;i<bodies.size();i++) {	
-			bodies.get(i).advance(dt);
+		for(Body b:bodies) {	
+			b.advance(dt);
 		}
 		
 	}
@@ -68,8 +72,8 @@ public class BodiesGroup {
 		
 		JSONObject i = new JSONObject();
 		JSONArray j = new JSONArray();
-		for(int n=0;n<bodies.size();n++) {
-			j.put(bodies.get(n).getState());
+		for(Body b:bodies) {
+			j.put(b.getState());
 		}
 		i.put("bodies", j);
 		i.put("id", this.getId());
@@ -79,6 +83,11 @@ public class BodiesGroup {
 	
 	public String toString() {
 		return getState().toString();
+	}
+	
+	public String getForceLawsInfo() {
+		return Leyes.toString();
+		
 	}
 	
 }

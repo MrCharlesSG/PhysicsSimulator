@@ -3,11 +3,14 @@ package simulator.control;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Collections;
+import java.util.List;
 
 import simulator.factories.Factory;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.model.SimulatorObserver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,4 +83,35 @@ public class Controller {
 		
 	}
 	
+	public void reset() {
+		physicsSimulator.reset();
+	}
+	
+	public void setDeltaTime(double dt) {
+		physicsSimulator.setDeltaTime(dt);
+	}
+	
+	public void addObserver(SimulatorObserver o) {
+		physicsSimulator.addObserver(o);
+	}
+	
+	public void removeObserver(SimulatorObserver o) {
+		physicsSimulator.removeObserver(o);
+	}
+	
+	public List<JSONObject> getForceLawsInfo(){
+		return factoryFL.getInfo();
+	}
+	
+	public void setForcesLaws(String gId, JSONObject info) {
+		ForceLaws fl;
+		fl = this.factoryFL.createInstance(info);
+		this.physicsSimulator.setForceLaws(gId, fl);
+	}
+	
+	public void run(int n) {
+		for(int i=0; i<n; i++) {
+			physicsSimulator.advance();
+		}
+	}
 }
