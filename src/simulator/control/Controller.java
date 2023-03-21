@@ -114,4 +114,13 @@ public class Controller {
 			physicsSimulator.advance();
 		}
 	}
+	
+	public int getNumberOfGroups() {
+		return this.physicsSimulator.getNumberOfGroups();
+	}
+
+	public double getTime() {
+		// TODO Auto-generated method stub
+		return this.physicsSimulator.getTime();
+	}
 }
