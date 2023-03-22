@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,7 +12,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import simulator.control.Controller;
 import simulator.model.BodiesGroup;
@@ -33,6 +37,8 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 	private JButton _selectorButton;
 	private JButton _simulationButton;
 	private JButton _viewerButton;
+	private JSpinner _time;
+	private JSpinner _steps;
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -57,31 +63,58 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_quitButton.addActionListener((e) -> Utils.quit(this));
 		_toolaBar.add(_quitButton);
 		
+		//Esto no es asi, es con un JTextField, luego lo cambio
+		_time=new JSpinner();
+		_time.setToolTipText("Real time (seconds) corresponding to a step");
+		
+		// Steps JSpinner
+		int stepsInitial = 10000;
+		int stepsMin = 1;
+		int stepsMax = 10000;
+		int stepsDistance = 1;
+		_steps=new JSpinner(new SpinnerNumberModel(stepsInitial,stepsMin,stepsMax,stepsDistance));
+		_steps.setToolTipText("Simulation steps to run: 1-10000");
+		_steps.setPreferredSize(new Dimension(40,20));
+		
+		
 		_viewerButton = new JButton();
 		_viewerButton.setToolTipText("Open viewer window");
 		_viewerButton.setIcon(new ImageIcon("resources/icons/viewer.png"));
 		_viewerButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
+				
 				
 			}
-			
 		});
+		_toolaBar.add(_viewerButton);
 		
 		_selectorButton = new JButton();
 		_selectorButton.setToolTipText("Load an input file into the simulator");
-		_selectorButton.setIcon(new ImageIcon("resources/icons/"));
+		_selectorButton.setIcon(new ImageIcon("resources/icons/open.png"));
 		_selectorButton.addActionListener(new ActionListener() {
-
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				_fc.showOpenDialog(Utils.getWindow());
+			public void actionPerformed(ActionEvent e) { //Es una prueba, no es asi, es por ver si accede bien al archivo
+				if(e.getSource()==_selectorButton) {
+					JFileChooser filechooser = new JFileChooser();
+					filechooser.setDialogTitle("Open");
+					filechooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+	                filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+	                FileNameExtensionFilter filter = new FileNameExtensionFilter("json");
+	                filechooser.setFileFilter(filter);
+
+	                int result = filechooser.showOpenDialog(_selectorButton);
+
+	                if (result == JFileChooser.APPROVE_OPTION) {
+	                    File selectedFile = filechooser.getSelectedFile();
+	                    System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+	                }
+				}
 			}
 			
-		});//Anadir funcionalidad
+		});
+		_toolaBar.add(_selectorButton);
 		
 		_simulationButton = new JButton();
 		_simulationButton.setToolTipText("Select force laws for groups");
@@ -94,7 +127,8 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 				
 			} 
 			
-		});//Anadir funcionalidad
+		});
+		_toolaBar.add(_simulationButton);
 		
 		_runButton = new JButton();
 		_runButton.setToolTipText("Run the simulator");
@@ -107,13 +141,15 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 				
 			}
 			
-		}); //Anadir funcionalidad
+		});
+		_toolaBar.add(_runButton);
 		
 		// TODO crear el selector de ficheros
 		_fc = new JFileChooser();
 		
 				
 	}
+	
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
@@ -149,9 +185,6 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		// TODO Auto-generated method stub
 		
 	}
-	// TODO el resto de métodos van aquí…
-	
-	
 	
 }
 
