@@ -21,31 +21,17 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		//Valor por defecto de c
 		Vector2D c = new Vector2D();
 		
-		//No se ha introducido ningun valor
-		if(data.isNull("c") && data.isNull("g")) {
-			return new MovingTowardsFixedPoint(c, g);
-		}
-		//Solo se ha introducido el valor de g
-		else if(data.isNull("c") && !data.isNull("g")) {
-			return new MovingTowardsFixedPoint(c, data.getDouble("g"));
-		}
-		//Solo se ha introducido el valor de c
-		else if(!data.isNull("c") && data.isNull("g")) {
+		if(data.has("c") ) {
 			JSONArray cj = data.getJSONArray("c");
 			double cx,cy;
 			cx= cj.getDouble(0);
 			cy= cj.getDouble(1);
-			return new MovingTowardsFixedPoint(new Vector2D(cx,cy), g);
+			c = new Vector2D(cx, cy);
 		}
-		//Se han introducido ambos datos
-		else {
-			JSONArray cj = data.getJSONArray("c");
-			double cx,cy;
+		if( data.has("g")) {
 			g = data.getDouble("g");
-			cx= cj.getDouble(0);
-			cy= cj.getDouble(1);
-			return new MovingTowardsFixedPoint(new Vector2D(cx, cy), g);
 		}
+		return new MovingTowardsFixedPoint(c, g);
 	}
 	
 	public JSONObject getInfo() {
@@ -53,8 +39,10 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		
 		jo.put("type",getTypeTag());
 		jo.put("desc",getDesc());
-		jo.put("data", toString());
-		
+		JSONArray jar= new JSONArray();
+		jar.put((new JSONObject()).put("c", "the point towards which bodies move (e.g., [100.0,50.0])"));
+		jar.put((new JSONObject()).put("g", "the length of the acceleration vector (a number)"));
+		jo.put("data", jar);
 		return jo;
 	}
 }

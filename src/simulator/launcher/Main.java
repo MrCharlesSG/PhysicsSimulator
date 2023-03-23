@@ -166,9 +166,6 @@ public class Main {
 	
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
-		if (_outFile == null) {
-			throw new ParseException("In batch mode an output file of bodies is required");
-		}
 	}
 	
 	private static void parseStepsOption(CommandLine line) throws ParseException {

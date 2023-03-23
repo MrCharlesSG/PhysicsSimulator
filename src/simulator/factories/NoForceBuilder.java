@@ -1,5 +1,6 @@
 package simulator.factories;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.model.ForceLaws;
@@ -26,8 +27,9 @@ public class NoForceBuilder extends Builder<ForceLaws>{
 		
 		jo.put("type",getTypeTag());
 		jo.put("desc",getDesc());
-		jo.put("data", toString());
-		
+		JSONArray jar= new JSONArray();
+		jo.put("data", jar);
 		return jo;
 	}
+	
 }

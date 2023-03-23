@@ -122,7 +122,6 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				viewerWindow = new ViewerWindow();
-				viewerWindow.initGUI();
 			}
 		});
 		

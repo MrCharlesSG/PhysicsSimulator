@@ -18,21 +18,19 @@ public class StationaryBodyBuilder extends Builder<Body>{
 	@Override
 	protected Body createInstance(JSONObject data) {
 		try {
-		JSONArray p = data.getJSONArray("p");
-		if(p.length()==2) {
-			double m, px, py;
-			String id, gid;
-			id = data.getString("id");
-			gid = data.getString("gid");
-			m= data.getDouble("m");
-			px= p.getDouble(0);
-			py= p.getDouble(1);
-			Vector2D pos = new Vector2D(px,py);
-			if(id!=null && gid != null && m>=0) {
+			JSONArray p = data.getJSONArray("p");
+			if(p.length()==2) {
+				double m, px, py;
+				String id, gid;
+				id = data.getString("id");
+				gid = data.getString("gid");
+				m= data.getDouble("m");
+				px= p.getDouble(0);
+				py= p.getDouble(1);
+				Vector2D pos = new Vector2D(px,py);
+				
 				return new StationaryBody(id, gid, pos,m);
 			}
-		}
-		
 		}catch(JSONException e){}
 		throw new IllegalArgumentException("Datos incorrectos en lectura de StationaryBody");
 	}

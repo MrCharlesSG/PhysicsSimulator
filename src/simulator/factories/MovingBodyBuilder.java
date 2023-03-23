@@ -33,9 +33,7 @@ public class MovingBodyBuilder extends Builder<Body>{
 					double vx= ja.getDouble(0);
 					double vy= ja.getDouble(1);
 					Vector2D vel = new Vector2D(vx,vy);
-					if(id!=null && gid != null && m>=0.0) {
-						return new MovingBody(id, gid, pos, vel,m);
-					}
+					return new MovingBody(id, gid, pos, vel,m);
 				}
 			}
 		}catch(JSONException e) {}

@@ -74,4 +74,9 @@ public abstract class Body {
 		return this.getState().toString();
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		return this.Id.equals(((Body)obj).Id);
+	}
+	
 }
