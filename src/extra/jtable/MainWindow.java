@@ -67,7 +67,7 @@ public class MainWindow extends JFrame {
 		_time.setToolTipText("Simulation tick to run: 1-10000");
 		_time.setMaximumSize(new Dimension(80, 40));
 		_time.setMinimumSize(new Dimension(80, 40));
-		_time.setPreferredSize(new Dimension(80, 40));
+		_time.setPreferredSize(new Dimension(60, 30));
 
 		// combo-box for selecting priority
 		_priotiry = new JComboBox<Integer>();

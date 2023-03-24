@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -53,9 +54,9 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		setLayout(new BorderLayout());
 		_toolaBar = new JToolBar();
 		add(_toolaBar, BorderLayout.PAGE_START);
-		// TODO crear los diferentes botones/atributos y aÃ±adirlos a _toolaBar.
+		// TODO crear los diferentes botones/atributos y añadirlos a _toolaBar.
 		// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
-		// _toolaBar.addSeparator() para aÃ±adir la lÃ­nea de separaciÃ³n vertical
+		// _toolaBar.addSeparator() para añadir la línea de separación vertical
 		// entre las componentes que lo necesiten
 		// Quit Button
 		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
@@ -118,7 +119,6 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_viewerButton.setIcon(new ImageIcon("resources/icons/viewer.png"));
 		
 		_viewerButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				viewerWindow = new ViewerWindow();
@@ -146,8 +146,8 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 				
 				
 			}
-			
 		});
+		_toolaBar.add(_viewerButton);
 		
 		//5to boton
 		// boton de stop
@@ -167,6 +167,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		this.deltaTimeBox= new JTextField();
 				
 	}
+	
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
@@ -208,7 +209,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_viewerButton.setEnabled(state);
 	}
 	
-	// TODO el resto de mÃ©todos van aquÃ­â€¦
+	// TODO el resto de métodos van aquí…
 	
 	private void run_sim(int n) {
 		if (n > 0 && !_stopped) {
