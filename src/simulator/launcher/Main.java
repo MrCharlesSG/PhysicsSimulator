@@ -2,10 +2,14 @@ package simulator.launcher;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -28,6 +32,7 @@ import simulator.factories.StationaryBodyBuilder;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.view.MainWindow;
 
 public class Main {
 
@@ -36,6 +41,7 @@ public class Main {
 	private final static Integer _stepsDefaultValue = 150;
 	private final static Double _dtimeDefaultValue = 2500.0;
 	private final static String _forceLawsDefaultValue = "nlug";
+	private final static String _modeDefaultValue = "gui";
 
 	// some attributes to stores values corresponding to command-line parameters
 	//
@@ -44,6 +50,7 @@ public class Main {
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static JSONObject _forceLawsInfo = null;
+	private static String _mode = null;
 
 	// factories
 	private static Factory<Body> _bodyFactory;
@@ -73,6 +80,7 @@ public class Main {
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 			parseHelpOption(line, cmdLineOptions);
+			parseModeOption(line);
 			parseInFileOption(line);
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
@@ -127,6 +135,12 @@ public class Main {
 						+ factoryPossibleValues(_forceLawsFactory) + ". Default value: '" + _forceLawsDefaultValue
 						+ "'.")
 				.build());
+		
+		// mode
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
+				.desc("Execution Mode. Possible values: 'batch' (Batch mode), 'gui' (Graphical User Interface mode). Default value: "
+						+ _modeDefaultValue + ".")
+				.build());
 
 		return cmdLineOptions;
 	}
@@ -156,10 +170,16 @@ public class Main {
 			System.exit(0);
 		}
 	}
+	
+	private static void parseModeOption(CommandLine line) throws ParseException {
+		String mod = line.getOptionValue("m", _modeDefaultValue.toString());
+		_mode=mod;
+		
+	}
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
+		if (_inFile == null && _mode=="batch") {
 			throw new ParseException("In batch mode an input file of bodies is required");
 		}
 	}
@@ -235,6 +255,8 @@ public class Main {
 			throw new ParseException("Invalid force laws: " + fl);
 		}
 	}
+	
+	
 
 	private static void startBatchMode() throws Exception {
 	
@@ -256,9 +278,29 @@ public class Main {
 		c.run(_steps, os);
 	}
 
+	private static void startGUIMode() throws Exception {
+		PhysicsSimulator ps = new PhysicsSimulator(_forceLawsFactory.createInstance(_forceLawsInfo),_dtime);
+		InputStream is;
+		Controller c = new Controller(ps, _bodyFactory, _forceLawsFactory);
+		
+		if(_inFile!=null) {
+			is=new FileInputStream(_inFile);
+			c.loadData(is);
+		}
+		
+		MainWindow w=new MainWindow(c);
+		SwingUtilities.invokeAndWait(()-> new MainWindow(c));
+		
+		
+	}
+	
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		startBatchMode();
+		if(_mode.equals("gui")) {
+			startGUIMode();
+		}else {
+			startBatchMode();
+		}
 	}
 
 	public static void main(String[] args) {

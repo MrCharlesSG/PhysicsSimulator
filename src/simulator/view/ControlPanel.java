@@ -70,7 +70,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		this.stepsSelector = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
 		
 		// TODO crear el selector de ficheros
-		_fc = new JFileChooser();
+		_fc = new JFileChooser("/PhysicsSimulatorTP/resources/examples/input");
 		
 		//1 er boton (carpeta)
 		//se abre el file system
@@ -87,7 +87,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 					try {
 						_ctrl.loadData(new FileInputStream(_fc.getSelectedFile()));
 					} catch (FileNotFoundException e1) {
-						throw new IllegalArgumentException("Archivo incorrecto");
+						Utils.showErrorMsg("Archivo incorrecto");
 					}
 				}else if(JFileChooser.CANCEL_OPTION==res) {
 					
@@ -97,7 +97,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			}
 			
 		});
-		
+		_toolaBar.add(_selectorButton);
 		//2do boton
 		//se abre la otra ventana
 		_physicsButton = new JButton();
@@ -111,7 +111,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			} 
 			
 		});
-		
+		_toolaBar.add(_physicsButton);
 		//3er boton
 		//se abre el simulador visual
 		_viewerButton = new JButton();
@@ -124,7 +124,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 				viewerWindow = new ViewerWindow();
 			}
 		});
-		
+		_toolaBar.add(_viewerButton);
 		//4to boton
 		// boton de start
 		_runButton = new JButton();
@@ -141,13 +141,13 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 					_ctrl.setDeltaTime(Double.parseDouble(deltaTimeBox.getText()));
 					run_sim(((Number) stepsSelector.getValue()).intValue());
 				}catch(NumberFormatException e1) {
-					throw new IllegalArgumentException();
+					Utils.showErrorMsg("No es un numero");
 				}
 				
 				
 			}
 		});
-		_toolaBar.add(_viewerButton);
+		_toolaBar.add(_runButton);
 		
 		//5to boton
 		// boton de stop
@@ -162,10 +162,11 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			}
 			
 		});
-		
+		_toolaBar.add(_stopButton);
 		//TODO jtextfielsd 
 		this.deltaTimeBox= new JTextField();
-				
+		this.deltaTimeBox.setSize(new Dimension(60,120));
+		_toolaBar.add(deltaTimeBox);
 	}
 	
 	@Override
@@ -195,7 +196,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 	}
 	@Override
 	public void onDeltaTimeChanged(double dt) {
-		this._ctrl.setDeltaTime(dt);
+		this.deltaTimeBox.setText(Double.toString(dt));
 	}
 	@Override
 	public void onForceLawsChanged(BodiesGroup g) {
@@ -216,17 +217,17 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		try {
 			_ctrl.run(1);
 		} catch (Exception e) {
-			// TODO llamar a Utils.showErrorMsg con el mensaje de error que
+			// llamar a Utils.showErrorMsg con el mensaje de error que
 			// corresponda
 			Utils.showErrorMsg(e.getMessage());
-			// TODO activar todos los botones
+			//  activar todos los botones
 			_stopped = true;
 			setStateButtons(true);
 			return;
 		}
 		SwingUtilities.invokeLater(() -> run_sim(n - 1));
 		} else {
-			// TODO activar todos los botones
+			//activar todos los botones
 			setStateButtons(true);	
 			_stopped = true;
 		}

@@ -19,7 +19,7 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	
 	GroupsTableModel(Controller ctrl) {
 		_groups = new ArrayList<>();
-		// TODO registrar this como observador
+		// registrar this como observador
 		this.ctrl= ctrl;
 		this.ctrl.addObserver(this);
 	}
@@ -28,38 +28,32 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this._groups.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this._header.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		return this._groups.get(rowIndex).getState().get(this._header[columnIndex]);
 	}
 
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
-		// TODO Auto-generated method stub
-
+		//registro todos los bodiesgroups aqui
 	}
 
 	@Override

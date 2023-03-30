@@ -24,10 +24,10 @@ class StatusBar extends JPanel implements SimulatorObserver {
 	JLabel numGroupsLabel;
 	// TODO Añadir los atributos necesarios, si hace falta …
 	StatusBar(Controller ctrl) {
-		initGUI();
 		this._ctrl=ctrl;
 		// TODO registrar this como observador
 		this._ctrl.addObserver(this);
+		initGUI();	
 	}
 	
 	private void initGUI() {
@@ -48,7 +48,7 @@ class StatusBar extends JPanel implements SimulatorObserver {
 		 this.add(s);
 	}
 	
-	// TODO el resto de métodos van aquí…
+	// TODO el resto de metodos van aqui...
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub

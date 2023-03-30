@@ -1,12 +1,12 @@
 package simulator.view;
 
-import java.lang.ModuleLayer.Controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
+import simulator.control.Controller;
 import simulator.model.BodiesGroup;
 import simulator.model.Body;
 import simulator.model.SimulatorObserver;
@@ -15,9 +15,13 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 
 	String[] _header = { "Id", "gId", "Mass", "Velocity", "Position", "Force" };
 	List<Body> _bodies;
+	Controller ctrl;//seguramente se puedan eliminar en el futuro
+	
 	BodiesTableModel(Controller ctrl) {
 		_bodies = new ArrayList<>();
-		// TODO registrar this como observer
+		// TODO registrar this como observador
+		this.ctrl=ctrl;
+		this.ctrl.addObserver(this);
 	}
 	// TODO el resto de métodos van aquí…
 

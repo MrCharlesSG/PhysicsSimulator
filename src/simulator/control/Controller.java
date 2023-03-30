@@ -37,7 +37,7 @@ public class Controller {
 		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
 		
 		JSONArray group = jsonInput.getJSONArray("groups");
-		//a�adimos los grupos
+		//anadimos los grupos
 		for(int i=0; i<group.length(); i++) {
 			this.physicsSimulator.addGroup(group.getString(i));
 		}
