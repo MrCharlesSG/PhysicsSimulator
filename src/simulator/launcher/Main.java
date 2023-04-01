@@ -288,7 +288,6 @@ public class Main {
 			c.loadData(is);
 		}
 		
-		MainWindow w=new MainWindow(c);
 		SwingUtilities.invokeAndWait(()-> new MainWindow(c));
 		
 		

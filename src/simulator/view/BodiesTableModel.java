@@ -13,6 +13,10 @@ import simulator.model.SimulatorObserver;
 
 public class BodiesTableModel extends AbstractTableModel implements SimulatorObserver {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String[] _header = { "Id", "gId", "Mass", "Velocity", "Position", "Force" };
 	List<Body> _bodies;
 	Controller ctrl;//seguramente se puedan eliminar en el futuro
@@ -24,53 +28,64 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 		this.ctrl.addObserver(this);
 	}
 	// TODO el resto de métodos van aquí…
-
+	//Metodos AbstractTable
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this._bodies.size();
+	}
+	
+	@Override
+	public String getColumnName(int column) {
+		return this._header[column];
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this._header.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		return this._bodies.get(rowIndex).getState().get(this._header[columnIndex]);
 	}
 
+	//Metodos Observer
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
-		// TODO Auto-generated method stub
-
+		/*for(String k:groups.keySet()) {
+			groups.get(k).advance(time);
+		}*/
+		this.fireTableDataChanged();
 	}
 
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
-		// TODO Auto-generated method stub
-
+		this._bodies.clear();
+		this.fireTableStructureChanged();
 	}
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
-		// TODO Auto-generated method stub
-
+		for(String k:groups.keySet()) {
+			for(Body b:groups.get(k).getUnmodificableBodyList()) {
+				this._bodies.add(b);
+			}
+		}
+		this.fireTableStructureChanged();
 	}
 
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {
-		// TODO Auto-generated method stub
-
+		for(Body b:g.getUnmodificableBodyList()) {
+			this._bodies.add(b);
+		}
+		this.fireTableStructureChanged();
 	}
 
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {
-		// TODO Auto-generated method stub
-
+		this._bodies.add(b);
+		this.fireTableStructureChanged();
 	}
 
 	@Override

@@ -13,6 +13,10 @@ import simulator.model.SimulatorObserver;
 
 public class GroupsTableModel extends AbstractTableModel implements SimulatorObserver {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String[] _header = { "Id", "Force Laws", "Bodies" };
 	List<BodiesGroup> _groups;
 	Controller ctrl;//Se podrá eliminar en el futuro de seguro
@@ -25,12 +29,17 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	}
 	
 	// TODO el resto de métodos van aquí …
-	
+	//Metodos AbstractTable
 	@Override
 	public int getRowCount() {
 		return this._groups.size();
 	}
 
+	@Override
+	public String getColumnName(int column) {
+		return this._header[column];
+	}
+	
 	@Override
 	public int getColumnCount() {
 		return this._header.length;
@@ -40,44 +49,63 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return this._groups.get(rowIndex).getState().get(this._header[columnIndex]);
 	}
-
+	
+	//Metodos Observer
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
-		
+		for (BodiesGroup bg : _groups) {
+			//si no es así comprobar para todas los groups que estan en el mapa
+			bg.advance(time);
+		}
+		this.fireTableStructureChanged();
 	}
 
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
-		
+		this._groups.clear();
+		this.fireTableStructureChanged();
 	}
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		//registro todos los bodiesgroups aqui
+		for(String k:groups.keySet()) {
+			this._groups.add(groups.get(k));
+		}
+		this.fireTableStructureChanged();
 	}
 
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {
-		// TODO Auto-generated method stub
-
+		this._groups.add(g);
+		this.fireTableStructureChanged();
 	}
 
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {
-		// TODO Auto-generated method stub
-
+		for (BodiesGroup bg : _groups) {
+			if(b.getgId().equals(bg.getId())) {
+				bg.addBody(b);
+			}
+		}
+		this.fireTableStructureChanged();
 	}
 
 	@Override
 	public void onDeltaTimeChanged(double dt) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onForceLawsChanged(BodiesGroup g) {
-		// TODO Auto-generated method stub
-
+		int i=0, pos=0;
+		for (BodiesGroup bg : _groups) {
+			if(g.getId().equals(bg.getId())) {
+				pos=i;
+			}
+			i++;
+		}
+		this._groups.set(pos, g);
 	}
 
 }

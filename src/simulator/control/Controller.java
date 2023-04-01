@@ -3,7 +3,6 @@ package simulator.control;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.Collections;
 import java.util.List;
 
 import simulator.factories.Factory;
@@ -13,7 +12,6 @@ import simulator.model.PhysicsSimulator;
 import simulator.model.SimulatorObserver;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 

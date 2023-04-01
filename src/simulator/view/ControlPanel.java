@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -43,6 +44,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 	private ViewerWindow viewerWindow;
 	private JTextField deltaTimeBox;
 	private JSpinner stepsSelector;
+	private ForceLawsDialog forceLawsDialog;
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -53,6 +55,8 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 	private void initGUI() {
 		setLayout(new BorderLayout());
 		_toolaBar = new JToolBar();
+		//Fijar la toolbar en la pantalla
+		this._toolaBar.setFloatable(false);
 		add(_toolaBar, BorderLayout.PAGE_START);
 		// TODO crear los diferentes botones/atributos y añadirlos a _toolaBar.
 		// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
@@ -61,17 +65,13 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		// Quit Button
 		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
 		_toolaBar.addSeparator();
-		_quitButton = new JButton();
-		_quitButton.setToolTipText("Quit");
-		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
-		_quitButton.addActionListener((e) -> Utils.quit(this));
-		_toolaBar.add(_quitButton);
-		
-		this.stepsSelector = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
 		
 		// TODO crear el selector de ficheros
-		_fc = new JFileChooser("/PhysicsSimulatorTP/resources/examples/input");
-		
+		_fc = new JFileChooser();
+		this._fc.setCurrentDirectory(new File("C:\\hlocal\\TP 2\\PhysicsSimulator\\PhysicsSimulator\\resources\\examples\\input"));
+		/*
+		 * CREAR BOTONES
+		 */
 		//1 er boton (carpeta)
 		//se abre el file system
 		_selectorButton = new JButton();
@@ -97,7 +97,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			}
 			
 		});
-		_toolaBar.add(_selectorButton);
+		
 		//2do boton
 		//se abre la otra ventana
 		_physicsButton = new JButton();
@@ -107,11 +107,13 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ForceLawsDialog.getInstance().open();
+				//if(forceLawsDialog==null) {
+					forceLawsDialog=new ForceLawsDialog(new Frame(), _ctrl );
+				//}
+				//forceLawsDialog.open();
 			} 
 			
 		});
-		_toolaBar.add(_physicsButton);
 		//3er boton
 		//se abre el simulador visual
 		_viewerButton = new JButton();
@@ -124,7 +126,6 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 				viewerWindow = new ViewerWindow();
 			}
 		});
-		_toolaBar.add(_viewerButton);
 		//4to boton
 		// boton de start
 		_runButton = new JButton();
@@ -142,12 +143,12 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 					run_sim(((Number) stepsSelector.getValue()).intValue());
 				}catch(NumberFormatException e1) {
 					Utils.showErrorMsg("No es un numero");
+					setStateButtons(true);
 				}
 				
 				
 			}
 		});
-		_toolaBar.add(_runButton);
 		
 		//5to boton
 		// boton de stop
@@ -162,11 +163,41 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			}
 			
 		});
-		_toolaBar.add(_stopButton);
-		//TODO jtextfielsd 
+		
+		//6to Boton
+		//boton de quit
+		_quitButton = new JButton();
+		_quitButton.setToolTipText("Quit");
+		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
+		_quitButton.addActionListener((e) -> Utils.quit(this));
+		
+		//dimension para todas las cajitas
+		Dimension dm = new Dimension(80, 40);
+		
+		//CREO lA CAJA DE STEPS
+		this.stepsSelector = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
+		
+		stepsSelector.setMaximumSize(dm);
+		stepsSelector.setMinimumSize(dm);
+		stepsSelector.setPreferredSize(dm);
+		
+		//CREO lA CAJA DE TIEMPO
 		this.deltaTimeBox= new JTextField();
-		this.deltaTimeBox.setSize(new Dimension(60,120));
+		this.deltaTimeBox.setMaximumSize(dm);
+		this.deltaTimeBox.setMinimumSize(dm);
+		this.deltaTimeBox.setPreferredSize(dm);
+		
+		/*
+		 * ANADO ELEMENTOS A LA BARRA DE TOOLS
+		 */
+		_toolaBar.add(_quitButton);
+		_toolaBar.add(_selectorButton);
+		_toolaBar.add(_physicsButton);
+		_toolaBar.add(_viewerButton);
+		_toolaBar.add(_runButton);
+		_toolaBar.add(_stopButton);
 		_toolaBar.add(deltaTimeBox);
+		_toolaBar.add(stepsSelector);
 	}
 	
 	@Override
@@ -214,24 +245,25 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	private void run_sim(int n) {
 		if (n > 0 && !_stopped) {
-		try {
-			_ctrl.run(1);
-		} catch (Exception e) {
-			// llamar a Utils.showErrorMsg con el mensaje de error que
-			// corresponda
-			Utils.showErrorMsg(e.getMessage());
-			//  activar todos los botones
-			_stopped = true;
-			setStateButtons(true);
-			return;
-		}
-		SwingUtilities.invokeLater(() -> run_sim(n - 1));
+			try {
+				//este run estab a 1
+				_ctrl.run(1);
+			} catch (Exception e) {
+				// llamar a Utils.showErrorMsg con el mensaje de error que
+				// corresponda
+				Utils.showErrorMsg(e.getMessage());
+				//  activar todos los botones
+				_stopped = true;
+				setStateButtons(true);
+				return;
+			}
+			SwingUtilities.invokeLater(() -> run_sim(n - 1));
 		} else {
 			//activar todos los botones
 			setStateButtons(true);	
 			_stopped = true;
 		}
-		}
+	}
 
 	
 }

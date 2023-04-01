@@ -37,6 +37,10 @@ public class BodiesGroup {
 		}
 	}
 	
+	public List<Body> getUnmodificableBodyList(){
+		return Collections.unmodifiableList(this.bodies);
+	}
+	
 	public void addBody(Body bs) throws IllegalArgumentException{
 		
 		if(bs == null) throw new IllegalArgumentException("Valor del cuerpo nulo");
