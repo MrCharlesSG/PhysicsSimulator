@@ -19,7 +19,7 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	private static final long serialVersionUID = 1L;
 	String[] _header = { "Id", "Force Laws", "Bodies" };
 	List<BodiesGroup> _groups;
-	Controller ctrl;//Se podrá eliminar en el futuro de seguro
+	Controller ctrl;
 	
 	GroupsTableModel(Controller ctrl) {
 		_groups = new ArrayList<>();
@@ -47,7 +47,13 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return this._groups.get(rowIndex).getState().get(this._header[columnIndex]);
+		//return this._groups.get(rowIndex).getState().get(this._header[columnIndex].toLowerCase());
+		switch(columnIndex) {
+		case 0: return this._groups.get(rowIndex).getId();
+		case 1:return this._groups.get(rowIndex).getForceLawsInfo();
+		case 2: return this._groups.get(rowIndex).getIDBodies();
+		}
+		return columnIndex;
 	}
 	
 	//Metodos Observer
@@ -83,11 +89,6 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {
-		for (BodiesGroup bg : _groups) {
-			if(b.getgId().equals(bg.getId())) {
-				bg.addBody(b);
-			}
-		}
 		this.fireTableStructureChanged();
 	}
 

@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -63,8 +65,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		// _toolaBar.addSeparator() para añadir la línea de separación vertical
 		// entre las componentes que lo necesiten
 		// Quit Button
-		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
-		_toolaBar.addSeparator();
+		
 		
 		// TODO crear el selector de ficheros
 		_fc = new JFileChooser();
@@ -83,8 +84,8 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			public void actionPerformed(ActionEvent e) {
 				int res=_fc.showOpenDialog(Utils.getWindow(_fc));
 				if(JFileChooser.APPROVE_OPTION==res) {
-					_ctrl.reset();
 					try {
+						_ctrl.reset();
 						_ctrl.loadData(new FileInputStream(_fc.getSelectedFile()));
 					} catch (FileNotFoundException e1) {
 						Utils.showErrorMsg("Archivo incorrecto");
@@ -107,10 +108,11 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//if(forceLawsDialog==null) {
+				if(forceLawsDialog==null) {
 					forceLawsDialog=new ForceLawsDialog(new Frame(), _ctrl );
-				//}
-				//forceLawsDialog.open();
+				}
+				forceLawsDialog.open();
+				
 			} 
 			
 		});
@@ -142,7 +144,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 					_ctrl.setDeltaTime(Double.parseDouble(deltaTimeBox.getText()));
 					run_sim(((Number) stepsSelector.getValue()).intValue());
 				}catch(NumberFormatException e1) {
-					Utils.showErrorMsg("No es un numero");
+					Utils.showErrorMsg("Delta-Time tiene que ser numero");
 					setStateButtons(true);
 				}
 				
@@ -175,13 +177,14 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		Dimension dm = new Dimension(80, 40);
 		
 		//CREO lA CAJA DE STEPS
-		this.stepsSelector = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
+		this.stepsSelector = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 100));
 		
 		stepsSelector.setMaximumSize(dm);
 		stepsSelector.setMinimumSize(dm);
 		stepsSelector.setPreferredSize(dm);
 		
 		//CREO lA CAJA DE TIEMPO
+
 		this.deltaTimeBox= new JTextField();
 		this.deltaTimeBox.setMaximumSize(dm);
 		this.deltaTimeBox.setMinimumSize(dm);
@@ -190,14 +193,19 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		/*
 		 * ANADO ELEMENTOS A LA BARRA DE TOOLS
 		 */
-		_toolaBar.add(_quitButton);
+		
 		_toolaBar.add(_selectorButton);
 		_toolaBar.add(_physicsButton);
 		_toolaBar.add(_viewerButton);
 		_toolaBar.add(_runButton);
 		_toolaBar.add(_stopButton);
+		_toolaBar.add( new JLabel("Delta-Time: "));
 		_toolaBar.add(deltaTimeBox);
+		_toolaBar.add(new JLabel("Steps: "));
 		_toolaBar.add(stepsSelector);
+		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
+		_toolaBar.addSeparator();
+        _toolaBar.add(_quitButton);
 	}
 	
 	@Override

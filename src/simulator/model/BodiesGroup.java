@@ -41,7 +41,17 @@ public class BodiesGroup {
 		return Collections.unmodifiableList(this.bodies);
 	}
 	
+	public String getIDBodies(){
+		String ret="";
+		for(Body b:this.bodies) {
+			//ret.concat(b.getId()).concat(" ");
+			ret+=b.getId()+" ";
+		}
+		return ret;
+	}
+	
 	public void addBody(Body bs) throws IllegalArgumentException{
+		int y=0;
 		
 		if(bs == null) throw new IllegalArgumentException("Valor del cuerpo nulo");
 		else {
@@ -50,6 +60,7 @@ public class BodiesGroup {
 			}else {
 				this.bodies.add(bs);
 			}
+			
 		}
 	}
 	

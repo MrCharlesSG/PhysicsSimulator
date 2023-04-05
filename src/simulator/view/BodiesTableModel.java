@@ -46,7 +46,16 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return this._bodies.get(rowIndex).getState().get(this._header[columnIndex]);
+		//return this._bodies.get(rowIndex).getState().get(this._header[columnIndex].toLowerCase());
+		switch(columnIndex) {
+		case 0: return this._bodies.get(rowIndex).getId();
+		case 1:return this._bodies.get(rowIndex).getgId();
+		case 2: return this._bodies.get(rowIndex).getMass();
+		case 3: return this._bodies.get(rowIndex).getVelocity();
+		case 4:return this._bodies.get(rowIndex).getPosition().toString();
+		case 5: return this._bodies.get(rowIndex).getForce().toString();
+		}
+		return 0;
 	}
 
 	//Metodos Observer

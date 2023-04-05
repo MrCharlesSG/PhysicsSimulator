@@ -39,6 +39,8 @@ public class Controller {
 		for(int i=0; i<group.length(); i++) {
 			this.physicsSimulator.addGroup(group.getString(i));
 		}
+		
+		//this.physicsSimulator.registerGroups(group);
 
 		if(jsonInput.has("laws")) {
 			JSONArray laws = jsonInput.getJSONArray("laws");
@@ -111,6 +113,10 @@ public class Controller {
 		for(int i=0; i<n; i++) {
 			physicsSimulator.advance();
 		}
+	}
+	
+	public String getGroupId(int i) {
+		return this.physicsSimulator.getGroupId(i);
 	}
 	
 	public int getNumberOfGroups() {

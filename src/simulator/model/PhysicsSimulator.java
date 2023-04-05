@@ -65,6 +65,8 @@ public class PhysicsSimulator {
 		}
 	}
 	
+
+	
 	public void setForceLaws(String id, ForceLaws fl) throws IllegalArgumentException {
 		
 		if(!map.containsKey(id))throw new IllegalArgumentException("Algun cuerpo ya tiene una fuerza asociada");
@@ -126,5 +128,9 @@ public class PhysicsSimulator {
 	
 	public double getTime() {
 		return this.ta;
+	}
+
+	public String getGroupId(int i) {
+		return this.lista.get(i).getId();
 	}
 }
