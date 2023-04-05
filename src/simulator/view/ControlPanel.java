@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import simulator.control.Controller;
 import simulator.model.BodiesGroup;
@@ -60,15 +61,17 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		//Fijar la toolbar en la pantalla
 		this._toolaBar.setFloatable(false);
 		add(_toolaBar, BorderLayout.PAGE_START);
-		// TODO crear los diferentes botones/atributos y añadirlos a _toolaBar.
+		// TODO crear los diferentes botones/atributos y aï¿½adirlos a _toolaBar.
 		// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
-		// _toolaBar.addSeparator() para añadir la línea de separación vertical
+		// _toolaBar.addSeparator() para aï¿½adir la lï¿½nea de separaciï¿½n vertical
 		// entre las componentes que lo necesiten
 		// Quit Button
 		
 		
 		// TODO crear el selector de ficheros
 		_fc = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos JSON", "json");
+		_fc.setFileFilter(filter);
 		this._fc.setCurrentDirectory(new File("C:\\hlocal\\TP 2\\PhysicsSimulator\\PhysicsSimulator\\resources\\examples\\input"));
 		/*
 		 * CREAR BOTONES
@@ -88,7 +91,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 						_ctrl.reset();
 						_ctrl.loadData(new FileInputStream(_fc.getSelectedFile()));
 					} catch (FileNotFoundException e1) {
-						Utils.showErrorMsg("Archivo incorrecto");
+						Utils.showErrorMsg("Archivo incorrecto o no es un json");
 					}
 				}else if(JFileChooser.CANCEL_OPTION==res) {
 					
@@ -249,7 +252,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_viewerButton.setEnabled(state);
 	}
 	
-	// TODO el resto de métodos van aquí…
+	// TODO el resto de mï¿½todos van aquï¿½
 	
 	private void run_sim(int n) {
 		if (n > 0 && !_stopped) {
