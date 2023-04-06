@@ -15,6 +15,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -128,7 +129,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_viewerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				viewerWindow = new ViewerWindow();
+				viewerWindow = new ViewerWindow(new JFrame(), _ctrl);
 			}
 		});
 		//4to boton
