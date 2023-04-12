@@ -70,6 +70,7 @@ class Viewer extends SimulationViewer {
 		// assign colors to groups
 		_colorGen = new ColorsGenerator();
 		_gColor = new HashMap<>();
+		
 
 		// initialize the lists of bodies and groups
 		_bodies = new ArrayList<>();
@@ -89,10 +90,11 @@ class Viewer extends SimulationViewer {
 			@Override
 			public void keyReleased(KeyEvent e) {
 			}
+			
 
 			/*
 			 * 
-			 * TODO
+			 * TODO 1
 			 * 
 			 * EN: handle keys 'j','l','i','m' to add 10/-10 to _originX/_originY, and then
 			 * call repaint(). This will make the origin point moves left/right/up/down. See
@@ -104,7 +106,7 @@ class Viewer extends SimulationViewer {
 			 * origen se mueva hacia la izquierda/derecha/arriba/abajo. Vea cómo se calculan
 			 * los valores de _centerX y _centerY en el método paintComponent
 			 * 
-			 * TODO
+			 * TODO 2
 			 * 
 			 * EN: handle key 'k' to set _originX and _originY to 0, and then call
 			 * repaint(). This will return the origin point to the center of the window.
@@ -112,7 +114,7 @@ class Viewer extends SimulationViewer {
 			 * ES: Gestiona la tecla 'k' para poner _originX y _originY en 0, y luego llame
 			 * a repaint(). Esto hace que el punto de origen sea el centro de la ventana.
 			 * 
-			 * TODO
+			 * TODO 3
 			 * 
 			 * EN: handle key 'h' to change the value of _showHelp to !_showHelp, and then
 			 * call repaint(). This will make show/hide the help text - see method
@@ -122,7 +124,7 @@ class Viewer extends SimulationViewer {
 			 * luego llame a repaint(). Esto hará que se muestre/oculte el texto de ayuda -
 			 * ver método paintComponent
 			 * 
-			 * TODO
+			 * TODO 4
 			 * 
 			 * EN: handle key 'v' to change the value of _showVectors to !_showVectors, and
 			 * then call repaint(). You will use this variable in drawBodies to decide if to
@@ -133,7 +135,7 @@ class Viewer extends SimulationViewer {
 			 * drawBodies para decidir si mostrar u ocultar los vectores de
 			 * velocidad/fuerza.
 			 * 
-			 * TODO
+			 * TODO 5
 			 * 
 			 * EN: handle key 'g' such that it makes the next group visible. Note that after
 			 * the last group all bodies are shown again. This should be done by modifying
@@ -150,6 +152,8 @@ class Viewer extends SimulationViewer {
 			 * método showBodies, solo dibujarás los que pertenecen al grupo seleccionado.
 			 * 
 			 */
+			
+			
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyChar()) {
@@ -165,12 +169,74 @@ class Viewer extends SimulationViewer {
 					autoScale();
 					repaint();
 					break;
-
+				//TODO 1
+				case 'j':{
+					_originX-=10;
+					repaint();
+					break;
+				}
+				case 'i':{
+					_originY+=10;
+					repaint();
+					break;
+				}
+				case 'l':{
+					_originX+=10;
+					repaint();
+					break;
+				}
+				case 'm':{
+					_originY-=10;
+					repaint();
+					break;
+				}
+				//TODO 2
+				case 'k':{
+					_originX=0;
+					_originY=0;
+					repaint();
+					break;
+				}
+				//TODO 3
+				case 'h':{
+					_showHelp=!_showHelp;
+					repaint();
+					break;
+				}
+				//TODO 4
+				case 'v':{
+					_showVectors=!_showVectors;
+					repaint();
+					break;
+				}
+				/*
+				 * TODO 5
+			 * 
+			 * EN: handle key 'g' such that it makes the next group visible. Note that after
+			 * the last group all bodies are shown again. This should be done by modifying
+			 * _selectedGroupIdx from -1 (all groups) to _groups.size()-1 in a circular way.
+			 * When its value is -1 you should set _selectedGroup to null, otherwise to the
+			 * id of the corresponding group. Then in method showBodies you will draw only
+			 * those that belong to the selected group.
+			 * 
+			 * ES: gestionar la tecla 'g' de manera que haga visible el siguiente grupo.
+			 * Tenga en cuenta que después del último grupo, se muestran todos los cuerpos.
+			 * Esto se puede hacer modificando _selectedGroupIdx de -1 (todos los grupos) a
+			 * _groups.size()-1 de forma circular. Cuando su valor es -1, _selectedGroup
+			 * sería nulo, de lo contrario, sería el id del grupo correspondiente. En el
+			 * método showBodies, solo dibujarás los que pertenecen al grupo seleccionado.
+			 * 
+			 */
+				 
+				//TODO 5
+				case 'g':{
+					
+				}
 				default:
 				}
 			}
 		});
-
+		
 		addMouseListener(new MouseListener() {
 
 			@Override
@@ -212,6 +278,10 @@ class Viewer extends SimulationViewer {
 		_centerY = getHeight() / 2 - _originY;
 
 		// TODO draw red cross at (_centerX,_centerY)
+		gr.setColor(Color.RED);
+	    int crossSize = 10;
+	    gr.drawLine(_centerX - crossSize, _centerY, _centerX + crossSize, _centerY);
+	    gr.drawLine(_centerX, _centerY - crossSize, _centerX, _centerY + crossSize);
 
 		// draw bodies
 		drawBodies(gr);
@@ -244,6 +314,14 @@ class Viewer extends SimulationViewer {
 		 * Selected Group: ...
 		 * 
 		 */
+
+		g.drawString("h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit", 10, 20);
+	    g.drawString("l: move right, j: move left, i: move up, m: move down: k: reset", 10, 35);
+	    g.drawString("g: show next group", 10, 50);
+	    g.drawString("Scaling ratio: "+ this._scale, 10, 65);
+	    g.drawString("Selected Group: ..." + this._selectedGroup, 10, 80);
+				
+		
 	}
 
 	private void drawBodies(Graphics2D g) {
@@ -269,18 +347,18 @@ class Viewer extends SimulationViewer {
 		 * valor de _scale.
 		 * 
 		 */
+		for(Body b : this._bodies) {
+			if(this.isVisible(b)) {
+				if(this._showVectors) {
+					g.drawLine(_centerY, _centerX, 10, 40);
+				}
+			}
+		}
 	}
 
 	private boolean isVisible(Body b) {
-		/*
-		 * TODO 
-		 * 
-		 * EN: return true if _selectedGroup is null or equal to b.getgId() 
-		 * 
-		 * ES: devuelve true si _selectedGroup es null o igual a b.getgId()
-		 *
-		 */
-		return false;
+		
+		return b.getgId().equals(this._selectedGroup);
 	}
 
 	// calculates a value for scale such that all visible bodies fit in the window

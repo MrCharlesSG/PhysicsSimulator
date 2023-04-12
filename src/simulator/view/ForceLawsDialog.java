@@ -139,14 +139,32 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 					//el pdf dice que hay que hacer un JSONObject que guarde la informacion de la tabla
 					
 					JSONObject jsonObject = new JSONObject();
-					//guardo datos de la tabla en JSONArray
-			        for (int i = 0; i < _dataTableModel.getRowCount(); i++) {
-			        	jsonObject.put((String) _dataTableModel.getValueAt(i, 0),_dataTableModel.getValueAt(i,1) );
-			        }
+					
 			        //Guardo 
 			        JSONObject okJson = new JSONObject();
-			        okJson.put("data", jsonObject);
+			        //typo de fuerza
 			        okJson.put("type", _forceLawsInfo.get(_selectedLawsIndex).getString("type"));
+			        
+			      //guardo datos de la tabla en JSONArray
+			        String var;
+			        for (int i = 0; i < _dataTableModel.getRowCount(); i++) {
+			        	var=(String) _dataTableModel.getValueAt(i, 0);
+			        	if(var=="c") {
+			        		JSONArray ar= new JSONArray();
+			        		String[] aux=((String)_dataTableModel.getValueAt(i,1)).split(",");
+			        		if(aux.length==2) {
+			        			ar.put(aux[0]);
+			        			ar.put(aux[1]);
+			        			jsonObject.put(var, ar);
+			        		}else {
+			        			throw new IllegalArgumentException();
+			        		}
+			        	}else {
+			        		jsonObject.put(var,_dataTableModel.getValueAt(i,1) );
+			        	}
+			        }
+			      //datos json
+			        okJson.put("data", jsonObject);
 			        //set forcelaws del grupo correspondiente
 			        String st=(String)_groupsModel.getSelectedItem();
 			        _ctrl.setForcesLaws(st, okJson);
@@ -154,7 +172,7 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 					setVisible(false);
 				
 				} catch(JSONException | IllegalArgumentException e2) {
-					Utils.showErrorMsg(e2.getMessage());
+					Utils.showErrorMsg("En Universal tiene que ser un double"+ System.lineSeparator()+"En MovingTowardsFixedPoint"+System.lineSeparator()+"	c:double, double"+System.lineSeparator()+"	g:double");
 				}
 			}
 		});

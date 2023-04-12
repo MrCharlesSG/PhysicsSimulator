@@ -99,14 +99,8 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 
 	@Override
 	public void onForceLawsChanged(BodiesGroup g) {
-		int i=0, pos=0;
-		for (BodiesGroup bg : _groups) {
-			if(g.getId().equals(bg.getId())) {
-				pos=i;
-			}
-			i++;
-		}
-		this._groups.set(pos, g);
+				
+		this.fireTableDataChanged();
 	}
 
 }
