@@ -2,6 +2,8 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.BoxLayout;
@@ -52,6 +54,12 @@ public class MainWindow extends JFrame {
 		
 		// TODO llama a Utils.quit(MainWindow.this) en el método windowClosing
 		//addWindowListener();
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Utils.quit(MainWindow.this);
+			}
+		});
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		pack();
 		setVisible(true);

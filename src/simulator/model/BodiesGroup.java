@@ -38,7 +38,7 @@ public class BodiesGroup {
 	}
 	
 	public List<Body> getUnmodificableBodyList(){
-		return Collections.unmodifiableList(this.bodies);
+		return this.bodiesRO;
 	}
 	
 	public String getIDBodies(){
@@ -51,8 +51,7 @@ public class BodiesGroup {
 	}
 	
 	public void addBody(Body bs) throws IllegalArgumentException{
-		int y=0;
-		
+	
 		if(bs == null) throw new IllegalArgumentException("Valor del cuerpo nulo");
 		else {
 			if(this.bodies.contains(bs)) {

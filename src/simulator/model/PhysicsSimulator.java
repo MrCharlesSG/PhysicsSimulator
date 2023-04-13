@@ -121,11 +121,6 @@ public class PhysicsSimulator {
 		}
 	}
 	
-	
-	public int getNumberOfGroups() {
-		return lista.size();
-	}
-	
 	public double getTime() {
 		return this.ta;
 	}

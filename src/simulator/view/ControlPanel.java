@@ -54,6 +54,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_ctrl = ctrl;
 		initGUI();
 		// TODO registrar this como observador
+		this._ctrl.addObserver(this);	
 	}
 	
 	private void initGUI() {
@@ -73,8 +74,10 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_fc = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos JSON", "json");
 		_fc.setFileFilter(filter);
-		this._fc.setCurrentDirectory(new File("C:\\hlocal\\TP 2\\PhysicsSimulator\\PhysicsSimulator\\resources\\examples\\input"));
+		//this._fc.setCurrentDirectory(new File("C:\\hlocal\\TP 2\\PhysicsSimulator\\PhysicsSimulator\\resources\\examples\\input"));
+		this._fc.setCurrentDirectory(new File("C:\\Users\\Usuario\\eclipse-workspace\\GitHub\\PhysicsSimulator\\resources\\examples\\input"));
 		/*
+		 * 
 		 * CREAR BOTONES
 		 */
 		//1 er boton (carpeta)
@@ -181,8 +184,8 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		Dimension dm = new Dimension(80, 40);
 		
 		//CREO lA CAJA DE STEPS
-		this.stepsSelector = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 100));
-		
+		this.stepsSelector = new JSpinner(new SpinnerNumberModel(10000, 1, 10000, 100));
+		this.stepsSelector.setToolTipText("Simulation steps to run 1-10000");
 		stepsSelector.setMaximumSize(dm);
 		stepsSelector.setMinimumSize(dm);
 		stepsSelector.setPreferredSize(dm);
@@ -190,6 +193,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		//CREO lA CAJA DE TIEMPO
 
 		this.deltaTimeBox= new JTextField();
+		this.deltaTimeBox.setToolTipText("El timing");
 		this.deltaTimeBox.setMaximumSize(dm);
 		this.deltaTimeBox.setMinimumSize(dm);
 		this.deltaTimeBox.setPreferredSize(dm);
@@ -203,10 +207,10 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_toolaBar.add(_viewerButton);
 		_toolaBar.add(_runButton);
 		_toolaBar.add(_stopButton);
-		_toolaBar.add( new JLabel("Delta-Time: "));
-		_toolaBar.add(deltaTimeBox);
 		_toolaBar.add(new JLabel("Steps: "));
 		_toolaBar.add(stepsSelector);
+		_toolaBar.add( new JLabel("Delta-Time: "));
+		_toolaBar.add(deltaTimeBox);
 		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
 		_toolaBar.addSeparator();
         _toolaBar.add(_quitButton);
@@ -225,7 +229,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		this.deltaTimeBox.setText(""+dt);
 	}
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {

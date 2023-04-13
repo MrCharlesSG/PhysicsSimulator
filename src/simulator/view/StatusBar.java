@@ -26,8 +26,8 @@ class StatusBar extends JPanel implements SimulatorObserver {
 	StatusBar(Controller ctrl) {
 		this._ctrl=ctrl;
 		// TODO registrar this como observador
-		this._ctrl.addObserver(this);
-		initGUI();	
+		initGUI();
+		this._ctrl.addObserver(this);	
 	}
 	
 	private void initGUI() {
@@ -35,11 +35,11 @@ class StatusBar extends JPanel implements SimulatorObserver {
 		this.setBorder(BorderFactory.createBevelBorder(1));
 		
 		// TODO Crear una etiqueta de tiempo y añadirla al panel
-		this.timeLabel= new JLabel("Time: "+ this._ctrl.getTime());
+		this.timeLabel= new JLabel("Time: ");
 		this.add(this.timeLabel);
 		
 		// TODO Crear la etiqueta de número de grupos y añadirla al panel
-		this.numGroupsLabel= new JLabel("Time: " + this._ctrl.getNumberOfGroups());
+		this.numGroupsLabel= new JLabel("Groups: ");
 		this.add(this.numGroupsLabel);
 		
 		// TODO Utilizar el siguiente código para añadir un separador vertical	
@@ -52,22 +52,22 @@ class StatusBar extends JPanel implements SimulatorObserver {
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
-		
+		this.timeLabel.setText("Time: "+ time);
 	}
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		this.timeLabel.setText("Time: "+time);
+		this.numGroupsLabel.setText("Groups: " + groups.size());
 	}
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {
 		// TODO Auto-generated method stub
-		
+		this.numGroupsLabel.setText("Groups: " + groups.size());
 	}
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {

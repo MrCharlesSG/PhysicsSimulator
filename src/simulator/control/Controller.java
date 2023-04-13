@@ -56,7 +56,6 @@ public class Controller {
 		for(int i=0; i<bodies.length(); i++) {
 			this.physicsSimulator.addBody(this.factoryBody.createInstance(bodies.getJSONObject(i)));
 		}
-		
 	}
 	
 	public void run(int n, OutputStream out) {
@@ -117,10 +116,6 @@ public class Controller {
 	
 	public String getGroupId(int i) {
 		return this.physicsSimulator.getGroupId(i);
-	}
-	
-	public int getNumberOfGroups() {
-		return this.physicsSimulator.getNumberOfGroups();
 	}
 
 	public double getTime() {
