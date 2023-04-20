@@ -1,11 +1,14 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.TableModel;
 
 public class InfoTable extends JPanel {
@@ -27,7 +30,7 @@ public class InfoTable extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		// añadir un borde con título al JPanel, con el texto _title
-		this.setBorder(BorderFactory.createTitledBorder(_title));
+		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), this._title, TitledBorder.LEFT,TitledBorder.TOP));
 		
 		// añadir un JTable (con barra de desplazamiento vertical) que use
 		// _tableModel

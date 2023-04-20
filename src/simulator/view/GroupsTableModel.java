@@ -59,10 +59,11 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 	//Metodos Observer
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
-		for (BodiesGroup bg : _groups) {
-			//si no es así comprobar para todas los groups que estan en el mapa
-			bg.advance(time);
+		this._groups.clear();
+		for(String k: groups.keySet()) {
+			this._groups.add(groups.get(k));
 		}
+		
 		this.fireTableStructureChanged();
 	}
 

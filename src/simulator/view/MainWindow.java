@@ -1,14 +1,17 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import simulator.control.Controller;
 
@@ -43,8 +46,10 @@ public class MainWindow extends JFrame {
 		mainPanel.add(grupos,BorderLayout.NORTH);
 		
 		//anadir tablas
-		contentPanel.add(new InfoTable("Groups", new GroupsTableModel(_ctrl)));
-		contentPanel.add(new InfoTable("Bodies", new BodiesTableModel(_ctrl)));
+		InfoTable groupsT=new InfoTable("Groups", new GroupsTableModel(_ctrl));
+		InfoTable bodiesT=new InfoTable("Bodies", new BodiesTableModel(_ctrl));
+		contentPanel.add(groupsT);
+		contentPanel.add(bodiesT);
 
 		// TODO crear la tabla de cuerpos y añadirla a contentPanel.
 		// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño

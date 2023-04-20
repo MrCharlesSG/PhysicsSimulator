@@ -61,7 +61,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		setLayout(new BorderLayout());
 		_toolaBar = new JToolBar();
 		//Fijar la toolbar en la pantalla
-		this._toolaBar.setFloatable(false);
+		//this._toolaBar.setFloatable(false);
 		add(_toolaBar, BorderLayout.PAGE_START);
 		// TODO crear los diferentes botones/atributos y a�adirlos a _toolaBar.
 		// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
@@ -74,7 +74,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_fc = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos JSON", "json");
 		_fc.setFileFilter(filter);
-		//this._fc.setCurrentDirectory(new File("C:\\hlocal\\TP 2\\PhysicsSimulator\\PhysicsSimulator\\resources\\examples\\input"));
+		this._fc.setCurrentDirectory(new File("C:\\hlocal\\TP 2\\PhysicsSimulator\\PhysicsSimulator\\resources\\examples\\input"));
 		this._fc.setCurrentDirectory(new File("C:\\Users\\Usuario\\eclipse-workspace\\GitHub\\PhysicsSimulator\\resources\\examples\\input"));
 		/*
 		 * 
@@ -191,20 +191,21 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		stepsSelector.setPreferredSize(dm);
 		
 		//CREO lA CAJA DE TIEMPO
-
 		this.deltaTimeBox= new JTextField();
 		this.deltaTimeBox.setToolTipText("El timing");
 		this.deltaTimeBox.setMaximumSize(dm);
 		this.deltaTimeBox.setMinimumSize(dm);
 		this.deltaTimeBox.setPreferredSize(dm);
-		
+		this.deltaTimeBox.addActionListener((e)->{_ctrl.setDeltaTime(Double.parseDouble(deltaTimeBox.getText()));});
 		/*
 		 * ANADO ELEMENTOS A LA BARRA DE TOOLS
 		 */
 		
 		_toolaBar.add(_selectorButton);
+		this._toolaBar.addSeparator();
 		_toolaBar.add(_physicsButton);
 		_toolaBar.add(_viewerButton);
+		this._toolaBar.addSeparator();
 		_toolaBar.add(_runButton);
 		_toolaBar.add(_stopButton);
 		_toolaBar.add(new JLabel("Steps: "));

@@ -34,7 +34,7 @@ public class ViewerWindow extends JFrame implements SimulatorObserver{
 	}
 	private void intiGUI() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		this.setLocationRelativeTo(null);
+		
 		// TODO poner contentPane como mainPanel con scrollbars (JScrollPane)
 		JScrollPane scrollPane = new JScrollPane(mainPanel);
 		setContentPane(scrollPane);
@@ -52,7 +52,7 @@ public class ViewerWindow extends JFrame implements SimulatorObserver{
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				_ctrl.removeObserver((SimulatorObserver) this);
+				_ctrl.removeObserver(ViewerWindow.this);
 			}
 
 			@Override
@@ -73,9 +73,10 @@ public class ViewerWindow extends JFrame implements SimulatorObserver{
 		});
 		pack();
 		if (_parent != null)
-		setLocation(
+		/*setLocation(
 		_parent.getLocation().x + _parent.getWidth()/2 - getWidth()/2,
-		_parent.getLocation().y + _parent.getHeight()/2 - getHeight()/2);
+		_parent.getLocation().y + _parent.getHeight()/2 - getHeight()/2);*/
+		this.setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	// TODO otros métodos van aquí….
@@ -111,7 +112,6 @@ public class ViewerWindow extends JFrame implements SimulatorObserver{
 	@Override
 	public void onDeltaTimeChanged(double dt) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

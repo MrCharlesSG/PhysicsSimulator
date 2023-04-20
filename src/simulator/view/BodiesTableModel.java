@@ -26,9 +26,11 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 		// TODO registrar this como observador
 		this.ctrl=ctrl;
 		this.ctrl.addObserver(this);
+		
 	}
 	// TODO el resto de métodos van aquí…
 	//Metodos AbstractTable
+	
 	@Override
 	public int getRowCount() {
 		return this._bodies.size();
@@ -61,9 +63,12 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 	//Metodos Observer
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
-		/*for(String k:groups.keySet()) {
-			groups.get(k).advance(time);
-		}*/
+		this._bodies.clear();
+		for(String k: groups.keySet()) {
+			for(Body b: groups.get(k).getUnmodificableBodyList()) {
+				this._bodies.add(b);
+			}
+		}
 		this.fireTableDataChanged();
 	}
 

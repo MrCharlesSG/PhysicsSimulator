@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -87,13 +89,19 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 		//Crear el combomox de leyes
 		_lawsModel = new DefaultComboBoxModel<>();
 		
+		JLabel forceLaw=new JLabel("Force Law: ");
+		JPanel comboBoxPanel=new JPanel();
+		JPanel selectorPanel=new JPanel();
+		JPanel buttonsPanel=new JPanel();
+		
+		
 		for(JSONObject law: this._forceLawsInfo) {
 			this._lawsModel.addElement(law.getString("desc"));
 		}
 		
 		JComboBox<String> cbbLawsMod = new JComboBox<String>(this._lawsModel);
-		
-		
+		cbbLawsMod.setMaximumSize(new Dimension(350, 20));
+		cbbLawsMod.setMinimumSize(new Dimension(350, 20));
 		//agregar funcionalidad a combobox leyes
 		cbbLawsMod.addActionListener(new ActionListener() {
 			@Override
@@ -123,10 +131,15 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 				
 			}
 		});
-		mainPanel.add(cbbLawsMod);
+		//mainPanel.add(cbbLawsMod);
 		//crear el combobox de grupos
 		_groupsModel = new DefaultComboBoxModel<>();
-		mainPanel.add(new JComboBox<String>(this._groupsModel));
+		JComboBox<String> cbbGroupsMod = new JComboBox<String>(this._groupsModel);
+		JLabel groupsLabel=new JLabel("Group: ");
+		
+		cbbGroupsMod.setMaximumSize(new Dimension(350, 20));
+		cbbGroupsMod.setMinimumSize(new Dimension(350, 20));
+		//mainPanel.add(new JComboBox<String>(this._groupsModel));
 		
 		// TODO crear los botones OK y Cancel y añadirlos al panel
 		//Boton OK
@@ -188,10 +201,22 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 			} 
 			
 		});
-		mainPanel.add(okButton);
-		mainPanel.add(cancelButton);
+		
+		buttonsPanel.add(okButton);
+		buttonsPanel.add(cancelButton);
+		selectorPanel.add(forceLaw);
+		selectorPanel.add(cbbLawsMod);
+		selectorPanel.add(groupsLabel);
+		selectorPanel.add(cbbGroupsMod);
+		comboBoxPanel.add(selectorPanel);
+		comboBoxPanel.add(buttonsPanel);
+		comboBoxPanel.setVisible(true);
+		mainPanel.add(comboBoxPanel);
+		
+		
 		
 		setPreferredSize(new Dimension(700, 400));
+		this.setLocationRelativeTo(null);
 		pack();
 		setResizable(false);
 		setVisible(false);

@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +56,7 @@ class Viewer extends SimulationViewer {
 
 	// the index and Id of the selected group, -1 and null means all groups
 	private int _selectedGroupIdx = -1;
-	private String _selectedGroup = null;
+	private String _selectedGroup = "all";
 
 	Viewer() {
 		initGUI();
@@ -176,7 +177,7 @@ class Viewer extends SimulationViewer {
 					break;
 				}
 				case 'i':{
-					_originY+=10;
+					_originY-=10;
 					repaint();
 					break;
 				}
@@ -186,7 +187,7 @@ class Viewer extends SimulationViewer {
 					break;
 				}
 				case 'm':{
-					_originY-=10;
+					_originY+=10;
 					repaint();
 					break;
 				}
@@ -209,28 +210,20 @@ class Viewer extends SimulationViewer {
 					repaint();
 					break;
 				}
-				/*
-				 * TODO 5
-			 * 
-			 * EN: handle key 'g' such that it makes the next group visible. Note that after
-			 * the last group all bodies are shown again. This should be done by modifying
-			 * _selectedGroupIdx from -1 (all groups) to _groups.size()-1 in a circular way.
-			 * When its value is -1 you should set _selectedGroup to null, otherwise to the
-			 * id of the corresponding group. Then in method showBodies you will draw only
-			 * those that belong to the selected group.
-			 * 
-			 * ES: gestionar la tecla 'g' de manera que haga visible el siguiente grupo.
-			 * Tenga en cuenta que después del último grupo, se muestran todos los cuerpos.
-			 * Esto se puede hacer modificando _selectedGroupIdx de -1 (todos los grupos) a
-			 * _groups.size()-1 de forma circular. Cuando su valor es -1, _selectedGroup
-			 * sería nulo, de lo contrario, sería el id del grupo correspondiente. En el
-			 * método showBodies, solo dibujarás los que pertenecen al grupo seleccionado.
-			 * 
-			 */
 				 
 				//TODO 5
 				case 'g':{
+					_selectedGroupIdx++;
+					if(_selectedGroupIdx==_groups.size()) {
+						_selectedGroupIdx=-1;
+					}
+					if(_selectedGroupIdx!=-1) {
+						_selectedGroup=_groups.get(_selectedGroupIdx).getId();
+					}else {
+						_selectedGroup="all";
+					}
 					
+					repaint();
 				}
 				default:
 				}
@@ -297,15 +290,7 @@ class Viewer extends SimulationViewer {
 		 * TODO
 		 * 
 		 * EN: complete to show the following text on the top-left corner:
-		 * 
-		 * h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit //
-		 * l: move right, j: move left, i: move up, m: move down: k: reset 
-		 * g: show next group
-		 * Scaling ratio: ... 
-		 * Selected Group: ...
-		 * 
-		 * ES: completa el método para que muestre el siguiente texto en la esquina
-		 * superior izquierda:
+
 		 * 
 		 * h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit 
 		 * l: move right, j: move left, i: move up, m: move down: k: reset 
@@ -314,12 +299,14 @@ class Viewer extends SimulationViewer {
 		 * Selected Group: ...
 		 * 
 		 */
+		g.setColor(Color.red);
 
 		g.drawString("h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit", 10, 20);
 	    g.drawString("l: move right, j: move left, i: move up, m: move down: k: reset", 10, 35);
 	    g.drawString("g: show next group", 10, 50);
 	    g.drawString("Scaling ratio: "+ this._scale, 10, 65);
-	    g.drawString("Selected Group: ..." + this._selectedGroup, 10, 80);
+	    g.setColor(Color.blue);
+	    g.drawString("Selected Group: " + this._selectedGroup, 10, 80);
 				
 		
 	}
@@ -336,29 +323,39 @@ class Viewer extends SimulationViewer {
 		 * assume that the origin point is (_centerX,_centerY), and recall to divide the
 		 * coordinates of the body by the value of _scale.
 		 * 
-		 * 
-		 * ES: Dibuja todos los cuerpos para los que isVisible(b) devuelve 'true' (ver
-		 * isVisible abajo, devuelve 'true' si el cuerpo pertenece al grupo
-		 * seleccionado). Para cada cuerpo, debes dibujar los vectores de velocidad y
-		 * fuerza si _showVectors es 'true'. Usa el método drawLineWithArrow para
-		 * dibujar los vectores. El color del cuerpo 'b' debe ser
-		 * _gColor.get(b.getgId()) -- ver el método addGroup. Como punto de origen usar
-		 * (_centerX,_centerY), y recordar dividir las coordenadas del cuerpo por el
-		 * valor de _scale.
-		 * 
 		 */
 		for(Body b : this._bodies) {
 			if(this.isVisible(b)) {
+				int posX=this._centerX+(int)(b.getPosition().getX()/this._scale);
+				int posY=this._centerY-(int)(b.getPosition().getY()/this._scale);
+				
+				g.setColor(_gColor.get(b.getgId()));
+
+				Ellipse2D.Double body= new Ellipse2D.Double();
+				body.setFrameFromCenter(posX, posY, posX+7, posY+7);
+			    g.draw(body);
+			    g.fill(body);
+			    
 				if(this._showVectors) {
-					g.drawLine(_centerY, _centerX, 10, 40);
+					Vector2D f= b.getForce().direction().scale(40);
+					int x1 = posX +(int) f.getX();
+					int y1 = posY + (int) f.getY();
+					this.drawLineWithArrow(g, posX, posY, x1 ,y1 , 15 ,5 , Color.GREEN, Color.GREEN);
+					
+					Vector2D v= b.getVelocity().direction().scale(40);
+					int x3 = posX +(int) v.getX();
+					int y3 = posY + (int) v.getY();
+					this.drawLineWithArrow(g, posX, posY, x3 ,y3 , 15 ,5 , Color.BLUE, Color.BLUE);
+					
 				}
+				
 			}
 		}
 	}
 
 	private boolean isVisible(Body b) {
 		
-		return b.getgId().equals(this._selectedGroup);
+		return  this._selectedGroupIdx==-1||b.getgId().equals(this._selectedGroup) ;
 	}
 
 	// calculates a value for scale such that all visible bodies fit in the window
@@ -387,6 +384,11 @@ class Viewer extends SimulationViewer {
 		 * ES: añadir g a _groups y sus cuerpos a _bodies
 		 * 
 		 */
+		this._groups.add(g);
+		for(Body b: g.getUnmodificableBodyList()) {
+			this._bodies.add(b);
+		}
+		//
 		_gColor.put(g.getId(), _colorGen.nextColor()); // assign color to group
 		autoScale();
 		update();
@@ -402,6 +404,7 @@ class Viewer extends SimulationViewer {
 		 *  ES: añadir b a _bodies
 		 *  
 		 */
+		this._bodies.add(b);
 		autoScale();
 		update();
 	}
@@ -417,6 +420,9 @@ class Viewer extends SimulationViewer {
 		 * el mapa de colores
 		 * 
 		 */
+		this._groups.clear();
+		this._bodies.clear();
+		this._gColor.clear();
 		_colorGen.reset(); // reset the color generator
 		_selectedGroupIdx = -1;
 		_selectedGroup = null;
