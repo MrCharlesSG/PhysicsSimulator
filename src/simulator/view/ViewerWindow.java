@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Map;
@@ -22,12 +23,12 @@ public class ViewerWindow extends JFrame implements SimulatorObserver{
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private SimulationViewer _viewer;
-	private JFrame _parent;
+	private Frame _parent;
 	
-	ViewerWindow(JFrame parent, Controller ctrl) {
+	ViewerWindow(Frame frame, Controller ctrl) {
 		super("Simulation Viewer");
 		_ctrl = ctrl;
-		_parent = parent;
+		_parent = frame;
 		intiGUI();
 		// TODO registrar this como observador
 		_ctrl.addObserver(this);

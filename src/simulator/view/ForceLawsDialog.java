@@ -2,13 +2,16 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -87,21 +90,15 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 		mainPanel.add(new JScrollPane(new JTable(this._dataTableModel)));
 		
 		//Crear el combomox de leyes
-		_lawsModel = new DefaultComboBoxModel<>();
-		
-		JLabel forceLaw=new JLabel("Force Law: ");
-		JPanel comboBoxPanel=new JPanel();
-		JPanel selectorPanel=new JPanel();
-		JPanel buttonsPanel=new JPanel();
-		
+		_lawsModel = new DefaultComboBoxModel<>();		
 		
 		for(JSONObject law: this._forceLawsInfo) {
 			this._lawsModel.addElement(law.getString("desc"));
 		}
 		
 		JComboBox<String> cbbLawsMod = new JComboBox<String>(this._lawsModel);
-		cbbLawsMod.setMaximumSize(new Dimension(350, 20));
-		cbbLawsMod.setMinimumSize(new Dimension(350, 20));
+		JLabel lawsLabel= new JLabel ("Laws: ");
+		cbbLawsMod.setPreferredSize(new Dimension(200, 20));
 		//agregar funcionalidad a combobox leyes
 		cbbLawsMod.addActionListener(new ActionListener() {
 			@Override
@@ -131,14 +128,13 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 				
 			}
 		});
-		//mainPanel.add(cbbLawsMod);
+		
 		//crear el combobox de grupos
 		_groupsModel = new DefaultComboBoxModel<>();
 		JComboBox<String> cbbGroupsMod = new JComboBox<String>(this._groupsModel);
 		JLabel groupsLabel=new JLabel("Group: ");
 		
-		cbbGroupsMod.setMaximumSize(new Dimension(350, 20));
-		cbbGroupsMod.setMinimumSize(new Dimension(350, 20));
+		cbbGroupsMod.setPreferredSize(new Dimension (50, 20));
 		//mainPanel.add(new JComboBox<String>(this._groupsModel));
 		
 		// TODO crear los botones OK y Cancel y añadirlos al panel
@@ -164,10 +160,12 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 			        	var=(String) _dataTableModel.getValueAt(i, 0);
 			        	if(var=="c") {
 			        		JSONArray ar= new JSONArray();
-			        		String[] aux=((String)_dataTableModel.getValueAt(i,1)).split(",");
+			        		String[] aux=((String)_dataTableModel.getValueAt(i,1)).trim().split(",");
 			        		if(aux.length==2) {
-			        			ar.put(aux[0]);
-			        			ar.put(aux[1]);
+			        			String aux2= aux[0].substring(1, aux[0].length());
+			        			ar.put(aux2);
+			        			aux2=aux[1].substring(0,aux[1].length()-1);
+			        			ar.put(aux2);
 			        			jsonObject.put(var, ar);
 			        		}else {
 			        			throw new IllegalArgumentException();
@@ -202,21 +200,34 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 			
 		});
 		
-		buttonsPanel.add(okButton);
-		buttonsPanel.add(cancelButton);
-		selectorPanel.add(forceLaw);
-		selectorPanel.add(cbbLawsMod);
-		selectorPanel.add(groupsLabel);
-		selectorPanel.add(cbbGroupsMod);
-		comboBoxPanel.add(selectorPanel);
-		comboBoxPanel.add(buttonsPanel);
-		comboBoxPanel.setVisible(true);
-		mainPanel.add(comboBoxPanel);
+		JPanel panelCbb = new JPanel();
+		panelCbb.setLayout(new FlowLayout());
+		//Añade lwas cbb
+		panelCbb .add(lawsLabel);
+		panelCbb.add(cbbLawsMod);
+		panelCbb.add(Box.createHorizontalStrut(10));
+		//añada groups cbb
+		panelCbb.add(groupsLabel);
+		panelCbb.add(cbbGroupsMod);
 		
+		//añade bto
+		JPanel panelB = new JPanel();
+		panelB.setLayout(new FlowLayout());
+		panelB.add(okButton);
+		panelB.add(cancelButton);
 		
+		//JPanel principal de los cbb y boton
+		JPanel panelAux = new JPanel();
+		panelAux.setLayout(new BorderLayout());
+		panelAux.add(panelCbb, BorderLayout.NORTH);
+		panelAux.add(panelB, BorderLayout.SOUTH);
 		
+		this.add(panelAux);
 		setPreferredSize(new Dimension(700, 400));
-		this.setLocationRelativeTo(null);
+		if (getParent() != null)
+			setLocation(//
+					getParent().getLocation().x + getParent().getWidth() / 2 - getWidth() / 2, //
+					getParent().getLocation().y + getParent().getHeight() / 2 - getHeight() / 2);
 		pack();
 		setResizable(false);
 		setVisible(false);

@@ -36,7 +36,8 @@ public class InfoTable extends JPanel {
 		// _tableModel
 		//crea una tabla con dicho modelo y se la pasa como argumento de tabla a un scroll panel
 		this.add(new JScrollPane((new JTable(this._tableModel)), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-		//horizontal scroll es cosecha propia
+
+		
 		
 	}
 }

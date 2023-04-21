@@ -104,4 +104,5 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 		this.fireTableDataChanged();
 	}
 
+	
 }

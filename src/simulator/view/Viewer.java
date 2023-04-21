@@ -307,6 +307,10 @@ class Viewer extends SimulationViewer {
 	    g.drawString("Scaling ratio: "+ this._scale, 10, 65);
 	    g.setColor(Color.blue);
 	    g.drawString("Selected Group: " + this._selectedGroup, 10, 80);
+	    if(this._selectedGroupIdx!=-1) {
+	    	g.setColor(Color.BLACK);
+	    	g.drawString("Force Group: " + this._groups.get(_selectedGroupIdx).getForceLawsInfo(), 10, 95);
+	    }
 				
 		
 	}

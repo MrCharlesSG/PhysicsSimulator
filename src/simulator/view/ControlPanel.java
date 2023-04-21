@@ -116,7 +116,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(forceLawsDialog==null) {
-					forceLawsDialog=new ForceLawsDialog(new Frame(), _ctrl );
+					forceLawsDialog=new ForceLawsDialog(Utils.getWindow(_fc), _ctrl );
 				}
 				forceLawsDialog.open();
 				
@@ -132,7 +132,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_viewerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				viewerWindow = new ViewerWindow(new JFrame(), _ctrl);
+				viewerWindow = new ViewerWindow( Utils.getWindow(ControlPanel.this), _ctrl);
 			}
 		});
 		//4to boton
