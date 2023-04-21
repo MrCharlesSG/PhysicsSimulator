@@ -1,21 +1,13 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
 import simulator.control.Controller;
 
@@ -40,39 +32,27 @@ public class MainWindow extends JFrame {
 		
 		// Definición del panel de tablas (usa un BoxLayout vertical)
 		JPanel contentPanel = new JPanel();
-		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-		mainPanel.add(contentPanel, BorderLayout.CENTER);
+		
 		
 		// TODO crear la tabla de grupos y añadirla a contentPanel.
-		// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
-		/*JPanel grupos=new JPanel();
-		grupos.setPreferredSize(new Dimension(500, 250));
-		mainPanel.add(grupos,BorderLayout.NORTH);
-		*/
 		//anadir tablas
-		InfoTable groupsT=new InfoTable("Groups", new GroupsTableModel(_ctrl)){
-			private static final long serialVersionUID = 1L;
-
-			// we override prepareRenderer to resize columns to fit to content
-			@Override
-			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-				Component component = super.prepareRenderer(renderer, row, column);
-				int rendererWidth = component.getPreferredSize().width;
-				TableColumn tableColumn = getColumnModel().getColumn(column);
-				tableColumn.setPreferredWidth(
-						Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));
-				return component;
-			});
+		InfoTable groupsT=new InfoTable("Groups", new GroupsTableModel(_ctrl));
 		InfoTable bodiesT=new InfoTable("Bodies", new BodiesTableModel(_ctrl));
+		
+		// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
+		Dimension dm = new Dimension (500,250);
+		groupsT.setPreferredSize(dm);
+		bodiesT.setPreferredSize(dm);
 		
 		contentPanel.add(groupsT);
 		contentPanel.add(bodiesT);
-
-		// TODO crear la tabla de cuerpos y añadirla a contentPanel.
-		// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
-		JPanel cuerpos=new JPanel();
-		cuerpos.setPreferredSize(new  Dimension(500,250));
-		mainPanel.add(cuerpos,BorderLayout.SOUTH);
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+		mainPanel.add(contentPanel, BorderLayout.CENTER);
+		
+		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+		//mainPanel.setLocation(EXIT_ON_CLOSE, ABORT);
+		
+		
 		
 		// TODO llama a Utils.quit(MainWindow.this) en el método windowClosing
 		//addWindowListener();
@@ -82,17 +62,11 @@ public class MainWindow extends JFrame {
 				Utils.quit(MainWindow.this);
 			}
 		});
-		
-		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-
-		// Situar this en el centro
-		Dimension ventana = this.getSize();
-		int posX = (pantalla.width - ventana.width) / 2;
-		int posY = (pantalla.height - ventana.height) / 2;
-		this.setLocation(posX, posY);
-		
+	
+	    	
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		pack();
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 }

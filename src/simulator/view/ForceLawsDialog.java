@@ -223,13 +223,18 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 		panelAux.add(panelB, BorderLayout.SOUTH);
 		
 		this.add(panelAux);
-		setPreferredSize(new Dimension(700, 400));
-		if (getParent() != null)
+		
+		/*
+		 * if (getParent() != null)
 			setLocation(//
 					getParent().getLocation().x + getParent().getWidth() / 2 - getWidth() / 2, //
 					getParent().getLocation().y + getParent().getHeight() / 2 - getHeight() / 2);
-		pack();
+		 */
+		
+		setPreferredSize(new Dimension(700, 400));
 		setResizable(false);
+		pack();
+		this.setLocationRelativeTo(this.getParent());
 		setVisible(false);
 	}
 	

@@ -43,9 +43,9 @@ class StatusBar extends JPanel implements SimulatorObserver {
 		this.add(this.numGroupsLabel);
 		
 		// TODO Utilizar el siguiente código para añadir un separador vertical	
-		JSeparator s = new JSeparator(JSeparator.VERTICAL);
+		/*JSeparator s = new JSeparator(JSeparator.VERTICAL);
 		s.setPreferredSize(new Dimension(10, 20));
-		 this.add(s);
+		 this.add(s);*/
 	}
 	
 	// TODO el resto de metodos van aqui...
