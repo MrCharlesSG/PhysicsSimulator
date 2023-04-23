@@ -17,7 +17,7 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 		
 		double g=6.67E-11;
 		
-		if(!data.isNull("G")) {
+		if(!data.isNull("G") && !data.get("G").equals("")) {
 			g = data.getDouble("G");
 		}
 		

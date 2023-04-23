@@ -21,14 +21,14 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		//Valor por defecto de c
 		Vector2D c = new Vector2D();
 		
-		if(data.has("c") ) {
+		if(data.has("c") && !data.get("c").equals("") ) {
 			JSONArray cj = data.getJSONArray("c");
 			double cx,cy;
 			cx= cj.getDouble(0);
 			cy= cj.getDouble(1);
 			c = new Vector2D(cx, cy);
 		}
-		if( data.has("g")) {
+		if( data.has("g")&&!data.get("g").equals("")) {
 			g = data.getDouble("g");
 		}
 		return new MovingTowardsFixedPoint(c, g);

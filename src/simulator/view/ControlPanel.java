@@ -189,7 +189,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		
 		//CREO lA CAJA DE TIEMPO
 		this.deltaTimeBox= new JTextField();
-		this.deltaTimeBox.setToolTipText("El timing");
+		this.deltaTimeBox.setToolTipText("Real time (seconds) corresponding to a step");
 		this.deltaTimeBox.setMaximumSize(dm);
 		this.deltaTimeBox.setMinimumSize(dm);
 		this.deltaTimeBox.setPreferredSize(dm);

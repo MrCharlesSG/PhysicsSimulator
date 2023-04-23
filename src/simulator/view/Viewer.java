@@ -470,4 +470,14 @@ class Viewer extends SimulationViewer {
 		g.fillPolygon(xpoints, ypoints, 3);
 	}
 
+	@Override
+	protected void forceLawsChanged(BodiesGroup g) {
+		for(BodiesGroup b: this._groups) {
+			if(b.getId().equals(g.getId())) {
+				b=g;
+			}
+		}
+		repaint();
+	}
+
 }

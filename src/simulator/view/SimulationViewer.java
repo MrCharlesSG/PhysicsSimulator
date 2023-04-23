@@ -14,4 +14,6 @@ abstract class SimulationViewer extends JComponent {
 	abstract void update();
 
 	abstract void reset();
+
+	protected abstract void forceLawsChanged(BodiesGroup g);
 }

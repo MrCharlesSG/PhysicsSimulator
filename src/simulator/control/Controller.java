@@ -119,7 +119,6 @@ public class Controller {
 	}
 
 	public double getTime() {
-		// TODO Auto-generated method stub
 		return this.physicsSimulator.getTime();
 	}
 }

@@ -71,9 +71,6 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 		
 		// TODO crear un JTable que use _dataTableModel, y añadirla al panel
 		_dataTableModel = new DefaultTableModel() {
-				/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 				@Override
@@ -85,6 +82,8 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 						return false;
 				}
 		};
+		
+		
 		_dataTableModel.setColumnIdentifiers(_headers);
 		
 		mainPanel.add(new JScrollPane(new JTable(this._dataTableModel)));
@@ -144,11 +143,8 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					//el pdf dice que hay que hacer un JSONObject que guarde la informacion de la tabla
-					
+				try {				
 					JSONObject jsonObject = new JSONObject();
-					
 			        //Guardo 
 			        JSONObject okJson = new JSONObject();
 			        //typo de fuerza
@@ -162,11 +158,18 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 			        		JSONArray ar= new JSONArray();
 			        		String[] aux=((String)_dataTableModel.getValueAt(i,1)).trim().split(",");
 			        		if(aux.length==2) {
-			        			String aux2= aux[0].substring(1, aux[0].length());
-			        			ar.put(aux2);
-			        			aux2=aux[1].substring(0,aux[1].length()-1);
-			        			ar.put(aux2);
-			        			jsonObject.put(var, ar);
+			        			if(aux[0].charAt(0)=='[' && aux[1].charAt(aux[1].length()-1)==']') {
+			        				String aux2= aux[0].substring(1, aux[0].length());
+				        			ar.put(aux2);
+				        			aux2=aux[1].substring(0,aux[1].length()-1);
+				        			ar.put(aux2);
+				        			jsonObject.put(var, ar);
+			        			}else {
+			        				throw new IllegalArgumentException();
+			        			}
+			        			
+			        		}else if(aux.length==1) {
+			        			jsonObject.put(var, aux[0]);
 			        		}else {
 			        			throw new IllegalArgumentException();
 			        		}
@@ -183,7 +186,7 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 					setVisible(false);
 				
 				} catch(JSONException | IllegalArgumentException e2) {
-					Utils.showErrorMsg("En Universal tiene que ser un double"+ System.lineSeparator()+"En MovingTowardsFixedPoint"+System.lineSeparator()+"	c:double, double"+System.lineSeparator()+"	g:double");
+					Utils.showErrorMsg("En Universal tiene que ser un double"+ System.lineSeparator()+"En MovingTowardsFixedPoint"+System.lineSeparator()+"	c: [double, double]"+System.lineSeparator()+"	g:double");
 				}
 			}
 		});
@@ -230,6 +233,17 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 					getParent().getLocation().x + getParent().getWidth() / 2 - getWidth() / 2, //
 					getParent().getLocation().y + getParent().getHeight() / 2 - getHeight() / 2);
 		 */
+		
+		//Cargo datos default a la tabla
+		JSONArray data= new JSONArray();
+		data=this._forceLawsInfo.get(0).getJSONArray("data");
+		for(int i=0; i<data.length(); i++) {
+			JSONObject js=((JSONObject)data.get(i));
+			for(String st:js.keySet()) {
+				Object[] aux={st,"",js.get(st) };
+				_dataTableModel.addRow(aux );
+			}
+		}
 		
 		setPreferredSize(new Dimension(700, 400));
 		setResizable(false);

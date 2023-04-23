@@ -117,8 +117,7 @@ public class ViewerWindow extends JFrame implements SimulatorObserver{
 
 	@Override
 	public void onForceLawsChanged(BodiesGroup g) {
-		// TODO Auto-generated method stub
-		
+		this._viewer.forceLawsChanged(g);
 	}
 
 	public void initGUI() {

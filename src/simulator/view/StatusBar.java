@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Map;
@@ -37,15 +38,19 @@ class StatusBar extends JPanel implements SimulatorObserver {
 		// TODO Crear una etiqueta de tiempo y añadirla al panel
 		this.timeLabel= new JLabel("Time: ");
 		this.add(this.timeLabel);
-		
+		//separador
+		JSeparator s = new JSeparator(JSeparator.VERTICAL);
+		s.setPreferredSize(new Dimension(10, 20));
+		 this.add(s);
 		// TODO Crear la etiqueta de número de grupos y añadirla al panel
 		this.numGroupsLabel= new JLabel("Groups: ");
 		this.add(this.numGroupsLabel);
 		
-		// TODO Utilizar el siguiente código para añadir un separador vertical	
-		/*JSeparator s = new JSeparator(JSeparator.VERTICAL);
-		s.setPreferredSize(new Dimension(10, 20));
-		 this.add(s);*/
+		//separador 2
+		JSeparator j = new JSeparator(JSeparator.VERTICAL);
+		j.setPreferredSize(new Dimension(10, 20));
+		this.add(j);
+		
 	}
 	
 	// TODO el resto de metodos van aqui...
