@@ -332,26 +332,27 @@ class Viewer extends SimulationViewer {
 			if(this.isVisible(b)) {
 				int posX=this._centerX+(int)(b.getPosition().getX()/this._scale);
 				int posY=this._centerY-(int)(b.getPosition().getY()/this._scale);
-				
-				g.setColor(_gColor.get(b.getgId()));
 
-				Ellipse2D.Double body= new Ellipse2D.Double();
-				body.setFrameFromCenter(posX, posY, posX+7, posY+7);
-			    g.draw(body);
-			    g.fill(body);
-			    
 				if(this._showVectors) {
 					Vector2D f= b.getForce().direction().scale(40);
 					int x1 = posX +(int) f.getX();
-					int y1 = posY + (int) f.getY();
+					int y1 = posY - (int) f.getY();
 					this.drawLineWithArrow(g, posX, posY, x1 ,y1 , 15 ,5 , Color.GREEN, Color.GREEN);
 					
 					Vector2D v= b.getVelocity().direction().scale(40);
 					int x3 = posX +(int) v.getX();
-					int y3 = posY + (int) v.getY();
-					this.drawLineWithArrow(g, posX, posY, x3 ,y3 , 15 ,5 , Color.BLUE, Color.BLUE);
+					int y3 = posY - (int) v.getY();
+					this.drawLineWithArrow(g, posX, posY, x3 ,y3 , 15 ,5 , Color.RED, Color.RED);
 					
 				}
+				g.setColor(_gColor.get(b.getgId()));
+				Ellipse2D.Double body= new Ellipse2D.Double();
+				body.setFrameFromCenter(posX, posY, posX+7, posY+7);
+			    g.draw(body);
+			    g.fill(body);
+			    g.drawString(b.getId(), posX, posY-10);
+			    
+				
 				
 			}
 		}

@@ -71,8 +71,7 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_fc = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos JSON", "json");
 		_fc.setFileFilter(filter);
-		this._fc.setCurrentDirectory(new File("C:\\hlocal\\TP 2\\PhysicsSimulator\\PhysicsSimulator\\resources\\examples\\input"));
-		this._fc.setCurrentDirectory(new File("C:\\Users\\Usuario\\eclipse-workspace\\GitHub\\PhysicsSimulator\\resources\\examples\\input"));
+		this._fc.setCurrentDirectory(new File("resources\\examples\\input"));
 		/*
 		 * 
 		 * CREAR BOTONES
