@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,10 +43,14 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 	private JButton _physicsButton;
 	private JButton _viewerButton;
 	private JButton _stopButton;
+	private JButton _totalForceButton;
 	private ViewerWindow viewerWindow;
+	private RemoveBodyDialog removeDialog;
 	private JTextField deltaTimeBox;
 	private JSpinner stepsSelector;
 	private ForceLawsDialog forceLawsDialog;
+	private TotalForceDialog totalForceDialog;
+	private JButton _removeBodyButtom;
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -101,6 +106,38 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			}
 			
 		});
+		
+		_removeBodyButtom = new JButton("Remove Body");
+		_removeBodyButtom.setToolTipText("Eliminate body by ID");
+		_removeBodyButtom.setBackground(Color.GREEN);
+		_removeBodyButtom.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(removeDialog==null) {
+					removeDialog=new RemoveBodyDialog(Utils.getWindow(_fc), _ctrl );
+				}
+				removeDialog.open();
+			}
+			
+		});
+		
+		//Boton Total Force per Body
+		_totalForceButton = new JButton("TotalForce");
+		_totalForceButton.setToolTipText("Total force per body");
+		_totalForceButton.setBackground(Color.pink);
+		_totalForceButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(totalForceDialog==null) {
+					totalForceDialog=new TotalForceDialog(Utils.getWindow(_fc), _ctrl );
+				}
+				totalForceDialog.open();
+			}
+			
+		});
+		
 		
 		//2do boton
 		//se abre la otra ventana
@@ -204,6 +241,8 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		this._toolaBar.addSeparator();
 		_toolaBar.add(_runButton);
 		_toolaBar.add(_stopButton);
+		_toolaBar.add(_totalForceButton);
+		_toolaBar.add(_removeBodyButtom);
 		_toolaBar.add(new JLabel("Steps: "));
 		_toolaBar.add(stepsSelector);
 		_toolaBar.add( new JLabel("Delta-Time: "));
@@ -252,6 +291,8 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 		_selectorButton.setEnabled(state);
 		_physicsButton.setEnabled(state);
 		_viewerButton.setEnabled(state);
+		_totalForceButton.setEnabled(state);
+		_removeBodyButtom.setEnabled(state);
 	}
 	
 	// TODO el resto de m�todos van aqu�
@@ -276,6 +317,12 @@ class ControlPanel extends JPanel implements SimulatorObserver {
 			setStateButtons(true);	
 			_stopped = true;
 		}
+	}
+
+	@Override
+	public void onBodyDeleted(Map<String, BodiesGroup> groups, Body b) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

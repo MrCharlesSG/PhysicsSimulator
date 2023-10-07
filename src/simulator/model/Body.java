@@ -76,7 +76,7 @@ public abstract class Body {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return this.Id.equals(((Body)obj).Id);
+		return this.Id.equals(((Body)obj).Id) && this.gId.equals(((Body)obj).getgId());
 	}
 	
 }

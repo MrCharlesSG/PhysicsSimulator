@@ -128,4 +128,12 @@ public class PhysicsSimulator {
 	public String getGroupId(int i) {
 		return this.lista.get(i).getId();
 	}
+
+	public void deleteBody(Body b) {
+		if(!map.containsKey(b.getgId())) throw new IllegalArgumentException("Group must exists");
+		map.get(b.getgId()).deleteBody(b);
+		for(SimulatorObserver so:listaobs) {
+			so.onBodyDeleted(groupsRO, b);
+		}
+	}
 }

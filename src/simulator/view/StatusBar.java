@@ -89,5 +89,11 @@ class StatusBar extends JPanel implements SimulatorObserver {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void onBodyDeleted(Map<String, BodiesGroup> groups, Body b) {
+		// TODO Auto-generated method stub
+		
+	}
 	}
 

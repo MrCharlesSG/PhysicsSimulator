@@ -121,4 +121,8 @@ public class Controller {
 	public double getTime() {
 		return this.physicsSimulator.getTime();
 	}
+
+	public void deleteBody(Body b) {
+		this.physicsSimulator.deleteBody(b);
+	}
 }

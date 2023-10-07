@@ -104,5 +104,11 @@ public class GroupsTableModel extends AbstractTableModel implements SimulatorObs
 		this.fireTableDataChanged();
 	}
 
+	@Override
+	public void onBodyDeleted(Map<String, BodiesGroup> groups, Body b) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

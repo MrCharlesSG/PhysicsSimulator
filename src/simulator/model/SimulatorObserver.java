@@ -10,5 +10,6 @@ public interface SimulatorObserver {
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b);
 	public void onDeltaTimeChanged(double dt);
 	public void onForceLawsChanged(BodiesGroup g);
+	public void onBodyDeleted(Map<String, BodiesGroup> groups, Body b);
 }
 

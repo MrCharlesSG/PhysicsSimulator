@@ -97,5 +97,17 @@ public class BodiesGroup {
 		return Leyes.toString();
 		
 	}
+
+	public void deleteBody(Body b) {
+		if(b == null) throw new IllegalArgumentException("Valor del cuerpo nulo");
+		else {
+			if(!this.bodies.contains(b)) {
+				throw new IllegalArgumentException("El cuerrpo no existe");
+			}else {
+				this.bodies.remove(b);
+			}
+			
+		}
+	}
 	
 }

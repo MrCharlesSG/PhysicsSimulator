@@ -114,4 +114,10 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 
 	}
 
+	@Override
+	public void onBodyDeleted(Map<String, BodiesGroup> groups, Body b) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

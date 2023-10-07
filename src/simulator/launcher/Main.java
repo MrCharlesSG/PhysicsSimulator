@@ -26,12 +26,15 @@ import simulator.factories.BuilderBasedFactory;
 import simulator.factories.Factory;
 import simulator.factories.MovingBodyBuilder;
 import simulator.factories.MovingTowardsFixedPointBuilder;
+import simulator.factories.MovingTowardsTwoFixedPointBuilder;
 import simulator.factories.NewtonUniversalGravitationBuilder;
 import simulator.factories.NoForceBuilder;
+import simulator.factories.RocketBuilder;
 import simulator.factories.StationaryBodyBuilder;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.model.TurnNorth;
 import simulator.view.MainWindow;
 
 public class Main {
@@ -51,6 +54,7 @@ public class Main {
 	private static String _outFile = null;
 	private static JSONObject _forceLawsInfo = null;
 	private static String _mode = null;
+	private static boolean _north = false;
 
 	// factories
 	private static Factory<Body> _bodyFactory;
@@ -60,11 +64,13 @@ public class Main {
 		ArrayList<Builder<Body>> a = new ArrayList<Builder<Body>>();
 		a.add(new MovingBodyBuilder());
 		a.add(new StationaryBodyBuilder());
+		a.add(new RocketBuilder());
 		_bodyFactory= new BuilderBasedFactory<Body>(a);
 		ArrayList<Builder<ForceLaws>> b = new ArrayList<Builder<ForceLaws>>();
 		b.add(new NewtonUniversalGravitationBuilder());
 		b.add(new NoForceBuilder());
 		b.add(new MovingTowardsFixedPointBuilder());
+		b.add(new MovingTowardsTwoFixedPointBuilder());
 		_forceLawsFactory= new BuilderBasedFactory<ForceLaws>(b);
 	}
 
@@ -86,6 +92,7 @@ public class Main {
 			parseForceLawsOption(line);
 			parseOutFileOption(line);
 			parseStepsOption(line);
+			parseNorthOption(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -141,6 +148,9 @@ public class Main {
 				.desc("Execution Mode. Possible values: 'batch' (Batch mode), 'gui' (Graphical User Interface mode). Default value: "
 						+ _modeDefaultValue + ".")
 				.build());
+		
+		// north
+		cmdLineOptions.addOption(Option.builder("n").longOpt("north").desc("How many times tourned a body north.").build());
 
 		return cmdLineOptions;
 	}
@@ -256,7 +266,10 @@ public class Main {
 		}
 	}
 	
-	
+	private static void parseNorthOption(CommandLine line) {
+		if(line.hasOption("n"))
+			_north= true;
+	}
 
 	private static void startBatchMode() throws Exception {
 	
@@ -270,12 +283,20 @@ public class Main {
 			os=new FileOutputStream(new File(_outFile));
 		}
 		Controller c = new Controller(ps, _bodyFactory, _forceLawsFactory);
+		TurnNorth tn;
 		try {
 			c.loadData(is);
 		}catch(Exception e) {
 			throw new Exception(e);
 		}
-		c.run(_steps, os);
+		if(_north) {
+			tn=new TurnNorth(c);
+			c.run(_steps, os);
+			tn.parse(os);
+		}else {
+			c.run(_steps, os);
+		}
+		
 	}
 
 	private static void startGUIMode() throws Exception {

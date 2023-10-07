@@ -154,7 +154,7 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 			        String var;
 			        for (int i = 0; i < _dataTableModel.getRowCount(); i++) {
 			        	var=(String) _dataTableModel.getValueAt(i, 0);
-			        	if(var=="c") {
+			        	if(var.charAt(0)=='c') {
 			        		JSONArray ar= new JSONArray();
 			        		String[] aux=((String)_dataTableModel.getValueAt(i,1)).trim().split(",");
 			        		if(aux.length==2) {
@@ -315,6 +315,12 @@ public class ForceLawsDialog extends JDialog implements SimulatorObserver{
 	}
 	@Override
 	public void onForceLawsChanged(BodiesGroup g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onBodyDeleted(Map<String, BodiesGroup> groups, Body b) {
 		// TODO Auto-generated method stub
 		
 	}

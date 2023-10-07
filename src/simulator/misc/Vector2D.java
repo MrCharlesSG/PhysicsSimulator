@@ -48,6 +48,10 @@ public class Vector2D {
 	public Vector2D minus(Vector2D that) {
 		return new Vector2D(_x - that._x, _y - that._y);
 	}
+	
+	public Vector2D perpendicular() {
+		return new Vector2D(_x, -_y);
+	}
 
 	// return the corresponding coordinate
 	public double getX() {
